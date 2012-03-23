@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Internals]
+ - Rework module discovery to be optimistic, check %INC if its there already, and if it is, report where it was found, otherwise, ask Path::ScanINC to tell us where it is WITHOUT loading it. This will hopefully be usefull in many cases allowing us to detect module availability without needing the compile/memory overheads of actually loading said modules
 
 0.001 2012-03-23T15:37:57Z
  - First version.

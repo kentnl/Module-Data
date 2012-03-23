@@ -1,10 +1,11 @@
 use strict;
 use warnings;
 
+# vim: set ts=4 noet sw=2 textwidth=80:
+
 package Module::Data;
 
 # ABSTRACT: Introspect context information about modules in @INC
-
 use Moo;
 use Sub::Quote;
 use Module::Runtime qw();
@@ -21,30 +22,31 @@ around BUILDARGS => sub {
 
 =head1 SYNOPSIS
 
-    use Module::Data;
+	use Module::Data;
 
-    my $d = Module::Data->new( 'Package::Stash' );
+	my $d = Module::Data->new( 'Package::Stash' );
 
-    $d->path; # returns the path to where Package::Stash was found in @INC
+	$d->path; # returns the path to where Package::Stash was found in @INC
 
-    $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
 
-    # Convenient trick to discern if you're in a development environment
+	# Convenient trick to discern if you're in a development environment
 
-    my $d = Module::Data->new( 'Module::Im::Developing' );
+	my $d = Module::Data->new( 'Module::Im::Developing' );
 
-    if ( -e $d->root->parent->dir('share') ) {
-        # Yep, this dir exists, so we're in a dev context.
-        # because we know in the development context all modules are in lib/*/*
-        # so if the modules are anywhere else, its not a dev context.
-        # see File::ShareDir::ProjectDistDir for more.
-    }
+	if ( -e $d->root->parent->subdir('share') ) {
+		# Yep, this dir exists, so we're in a dev context.
+		# because we know in the development context all modules are in lib/*/*
+		# so if the modules are anywhere else, its not a dev context.
+		# see File::ShareDir::ProjectDistDir for more.
+	}
 
 	# Helpful sugar. 
 
 	my $v = $d->version; 
 
-Presently all the guts are running of Perl INC{} magic, but work is in progress and this is just an early release for some base functionality. 
+Presently all the guts are running of Perl C<%INC> magic, but work is in
+progress and this is just an early release for some base functionality.
 
 =cut
 
@@ -62,28 +64,41 @@ has package => (
 	required => 1,
 	is       => 'ro',
 	isa      => quote_sub q{
-        die "given undef for 'package' , expects a Str/module name" if not defined $_[0];
-        die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];
-        Module::Runtime::check_module_name( $_[0] );
-    },
+		die "given undef for 'package' , expects a Str/module name" if not defined $_[0];
+		die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];
+		Module::Runtime::check_module_name( $_[0] );
+	},
 );
 
 has _notional_name => (
 	is      => 'ro',
 	lazy    => 1,
 	default => quote_sub q{
-        return Module::Runtime::module_notional_filename( $_[0]->package );
-    },
+		return Module::Runtime::module_notional_filename( $_[0]->package );
+	},
 );
 
-has _inc_path => (
-	is      => 'ro',
-	lazy    => 1,
-	default => quote_sub q|
-        Module::Runtime::require_module( $_[0]->package );
-        return $INC{ $_[0]->_notional_name };
-    |,
-);
+sub _find_module_perl {
+  my ( $self ) = @_;
+  Module::Runtime::require_module( $self->package );
+  return $INC{ $self->_notional_name };
+}
+
+sub _find_module_emulate {
+  my ( $self ) = @_;
+  my ( @filename ) = split /::/, $self->package;
+  $filename[-1] .= '.pm';
+  require Path::ScanINC;
+  return Path::ScanINC->new()->first_file(  @filename );
+}
+
+sub _find_module_optimistic {
+  my ( $self ) = @_;
+  if ( exists $INC{ $self->_notional_name } ) {
+	return $INC{ $self->_notional_name };
+  }
+  return $self->_find_module_emulate;
+}
 
 ## use critic
 
@@ -103,7 +118,7 @@ has path => (
 );
 
 sub _build_path {
-	return Path::Class::File->new( $_[0]->_inc_path )->absolute;
+	return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
 }
 
 =method root
@@ -157,6 +172,7 @@ sub version {
 	my ( $self, @junk ) = @_;
 	return $self->package->VERSION;
 }
+
 no Moo;
 
 1;
