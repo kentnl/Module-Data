@@ -2,6 +2,12 @@ use strict;
 use warnings;
 
 package Module::Data;
+BEGIN {
+  $Module::Data::AUTHORITY = 'cpan:KENTNL';
+}
+{
+  $Module::Data::VERSION = '0.001';
+}
 
 # ABSTRACT: Introspect context information about modules in @INC
 
@@ -19,44 +25,9 @@ around BUILDARGS => sub {
 	return $class->$orig(@args);
 };
 
-=head1 SYNOPSIS
-
-    use Module::Data;
-
-    my $d = Module::Data->new( 'Package::Stash' );
-
-    $d->path; # returns the path to where Package::Stash was found in @INC
-
-    $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
-
-    # Convenient trick to discern if you're in a development environment
-
-    my $d = Module::Data->new( 'Module::Im::Developing' );
-
-    if ( -e $d->root->parent->dir('share') ) {
-        # Yep, this dir exists, so we're in a dev context.
-        # because we know in the development context all modules are in lib/*/*
-        # so if the modules are anywhere else, its not a dev context.
-        # see File::ShareDir::ProjectDistDir for more.
-    }
-
-	# Helpful sugar. 
-
-	my $v = $d->version; 
-
-Presently all the guts are running of Perl INC{} magic, but work is in progress and this is just an early release for some base functionality. 
-
-=cut
 
 ## no critic ( ProhibitImplicitNewlines )
 
-=method package
-
-Returns the package the C<Module::Data> instance was created for.
-
-	my $package = $md->package 
-
-=cut
 
 has package => (
 	required => 1,
@@ -87,13 +58,6 @@ has _inc_path => (
 
 ## use critic
 
-=method path
-
-A Path::Class::File with the absolute path to the found module.
-
-	my $path = $md->path;
-
-=cut
 
 has path => (
 	is       => 'ro',
@@ -106,14 +70,6 @@ sub _build_path {
 	return Path::Class::File->new( $_[0]->_inc_path )->absolute;
 }
 
-=method root
-
-Returns the base directory of the tree the module was found at. 
-( Probably from @INC );
-
-	my $root = $md->root
-
-=cut
 
 has root => (
 	is       => 'ro',
@@ -144,14 +100,6 @@ sub _build_root {
 
 }
 
-=method version
-
-	my $v = $md->version;
-
-	# really just shorthand convenience for $PACKAGE->VERSION 
-	# will be possibly extracted out without loading the module first in a future release. 
-
-=cut
 
 sub version {
 	my ( $self, @junk ) = @_;
@@ -160,3 +108,85 @@ sub version {
 no Moo;
 
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Module::Data - Introspect context information about modules in @INC
+
+=head1 VERSION
+
+version 0.001
+
+=head1 SYNOPSIS
+
+    use Module::Data;
+
+    my $d = Module::Data->new( 'Package::Stash' );
+
+    $d->path; # returns the path to where Package::Stash was found in @INC
+
+    $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+
+    # Convenient trick to discern if you're in a development environment
+
+    my $d = Module::Data->new( 'Module::Im::Developing' );
+
+    if ( -e $d->root->parent->dir('share') ) {
+        # Yep, this dir exists, so we're in a dev context.
+        # because we know in the development context all modules are in lib/*/*
+        # so if the modules are anywhere else, its not a dev context.
+        # see File::ShareDir::ProjectDistDir for more.
+    }
+
+	# Helpful sugar. 
+
+	my $v = $d->version; 
+
+Presently all the guts are running of Perl INC{} magic, but work is in progress and this is just an early release for some base functionality. 
+
+=head1 METHODS
+
+=head2 package
+
+Returns the package the C<Module::Data> instance was created for.
+
+	my $package = $md->package 
+
+=head2 path
+
+A Path::Class::File with the absolute path to the found module.
+
+	my $path = $md->path;
+
+=head2 root
+
+Returns the base directory of the tree the module was found at. 
+( Probably from @INC );
+
+	my $root = $md->root
+
+=head2 version
+
+	my $v = $md->version;
+
+	# really just shorthand convenience for $PACKAGE->VERSION 
+	# will be possibly extracted out without loading the module first in a future release. 
+
+=head1 AUTHOR
+
+Kent Fredric <kentnl@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
