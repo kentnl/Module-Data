@@ -8,9 +8,6 @@ package Module::Data;
 # ABSTRACT: Introspect context information about modules in @INC
 use Moo;
 use Sub::Quote;
-use Module::Runtime qw();
-use Path::Class::File;
-use Path::Class::Dir;
 
 around BUILDARGS => sub {
 	my ( $orig, $class, @args ) = @_;
@@ -66,6 +63,7 @@ has package => (
 	isa      => quote_sub q{
 		die "given undef for 'package' , expects a Str/module name" if not defined $_[0];
 		die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];
+		require Module::Runtime;
 		Module::Runtime::check_module_name( $_[0] );
 	},
 );
@@ -74,12 +72,14 @@ has _notional_name => (
 	is      => 'ro',
 	lazy    => 1,
 	default => quote_sub q{
+		require Module::Runtime;
 		return Module::Runtime::module_notional_filename( $_[0]->package );
 	},
 );
 
 sub _find_module_perl {
   my ( $self ) = @_;
+  require Module::Runtime;
   Module::Runtime::require_module( $self->package );
   return $INC{ $self->_notional_name };
 }
@@ -118,6 +118,7 @@ has path => (
 );
 
 sub _build_path {
+	require Path::Class::File;
 	return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
 }
 
@@ -168,9 +169,34 @@ sub _build_root {
 
 =cut
 
+sub _version_perl {
+  my ( $self ) = @_;
+  my $path = $self->path;
+  require $path;
+  # has to load the code into memory to work
+  return $self->package->VERSION;
+}
+
+sub _version_emulate {
+  my ( $self ) = @_ ;
+  my $path = $self->path;
+  require Module::Metadata;
+  my $i = Module::Metadata->new_from_file( $path, collect_pod => 0 );
+  return $i->version( $self->package );
+}
+
+sub _version_optimistic {
+  my ( $self ) = @_;
+  if ( exists $INC{ $self->_notional_name } ) {
+	return $self->package->VERSION;
+  } else {
+	return $self->_version_emulate;
+  }
+}
+
 sub version {
 	my ( $self, @junk ) = @_;
-	return $self->package->VERSION;
+	return $self->_version_optimistic;
 }
 
 no Moo;
