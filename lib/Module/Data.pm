@@ -42,9 +42,6 @@ around BUILDARGS => sub {
 
 	my $v = $d->version; 
 
-Presently all the guts are running of Perl C<%INC> magic, but work is in
-progress and this is just an early release for some base functionality.
-
 =cut
 
 ## no critic ( ProhibitImplicitNewlines )

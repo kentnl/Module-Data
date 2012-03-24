@@ -1,6 +1,10 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Dependencies::New]
+ - Runtime requires : Module::Metadata
+ - Runtime requires : Path::ScanINC
+
  [Internals]
  - Rework module discovery to be optimistic, check %INC if its there
    already, and if it is, report where it was found, otherwise, ask
