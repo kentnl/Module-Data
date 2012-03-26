@@ -24,7 +24,6 @@ is(
   exception {
     $data = {
       _notional_name => $md->_notional_name,
-      _inc_path      => $md->_inc_path,
       path           => $md->path->stringify,
       package        => $md->package,
       root           => $md->root->stringify,
