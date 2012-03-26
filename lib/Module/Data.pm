@@ -75,26 +75,26 @@ has _notional_name => (
 );
 
 sub _find_module_perl {
-  my ( $self ) = @_;
-  require Module::Runtime;
-  Module::Runtime::require_module( $self->package );
-  return $INC{ $self->_notional_name };
+	my ($self) = @_;
+	require Module::Runtime;
+	Module::Runtime::require_module( $self->package );
+	return $INC{ $self->_notional_name };
 }
 
 sub _find_module_emulate {
-  my ( $self ) = @_;
-  my ( @filename ) = split /::/, $self->package;
-  $filename[-1] .= '.pm';
-  require Path::ScanINC;
-  return Path::ScanINC->new()->first_file(  @filename );
+	my ($self) = @_;
+	my (@filename) = split /::/, $self->package;
+	$filename[-1] .= '.pm';
+	require Path::ScanINC;
+	return Path::ScanINC->new()->first_file(@filename);
 }
 
 sub _find_module_optimistic {
-  my ( $self ) = @_;
-  if ( exists $INC{ $self->_notional_name } ) {
-	return $INC{ $self->_notional_name };
-  }
-  return $self->_find_module_emulate;
+	my ($self) = @_;
+	if ( exists $INC{ $self->_notional_name } ) {
+		return $INC{ $self->_notional_name };
+	}
+	return $self->_find_module_emulate;
 }
 
 ## use critic
@@ -167,28 +167,30 @@ sub _build_root {
 =cut
 
 sub _version_perl {
-  my ( $self ) = @_;
-  my $path = $self->path;
-  require $path;
-  # has to load the code into memory to work
-  return $self->package->VERSION;
+	my ($self) = @_;
+	my $mod = $self->_notional_name;
+	require $mod;
+
+	# has to load the code into memory to work
+	return $self->package->VERSION;
 }
 
 sub _version_emulate {
-  my ( $self ) = @_ ;
-  my $path = $self->path;
-  require Module::Metadata;
-  my $i = Module::Metadata->new_from_file( $path, collect_pod => 0 );
-  return $i->version( $self->package );
+	my ($self) = @_;
+	my $path = $self->path;
+	require Module::Metadata;
+	my $i = Module::Metadata->new_from_file( $path, collect_pod => 0 );
+	return $i->version( $self->package );
 }
 
 sub _version_optimistic {
-  my ( $self ) = @_;
-  if ( exists $INC{ $self->_notional_name } ) {
-	return $self->package->VERSION;
-  } else {
-	return $self->_version_emulate;
-  }
+	my ($self) = @_;
+	if ( exists $INC{ $self->_notional_name } ) {
+		return $self->package->VERSION;
+	}
+	else {
+		return $self->_version_emulate;
+	}
 }
 
 sub version {
