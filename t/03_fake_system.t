@@ -75,7 +75,8 @@ for my $lib (
 			undef,
 			"->path works for " . $mod->package
 		);
-#		note $path;
+
+		#		note $path;
 	}
 
 	for my $mod (qw( Test::A Test::B Test::C Test::D )) {
@@ -92,7 +93,8 @@ for my $lib (
 			undef,
 			"->root works for " . $mod->package
 		);
-#		note $root;
+
+		#		note $root;
 	}
 
 	for my $mod (qw( Test::A Test::B Test::C Test::D )) {
@@ -109,7 +111,8 @@ for my $lib (
 			undef,
 			"->version works for " . $mod->package
 		);
-#		note $version;
+
+		#		note $version;
 	}
 
 	for my $mod (qw( Test::A Test::B Test::C Test::D )) {
@@ -126,7 +129,8 @@ for my $lib (
 			undef,
 			"->_version_perl works for " . $mod->package
 		);
-#		note $version;
+
+		#		note $version;
 	}
 	for my $mod (qw( Test::A Test::B Test::C Test::D )) {
 		my $key = Module::Runtime::module_notional_filename($mod);
@@ -144,7 +148,8 @@ for my $lib (
 			"Calls to $mod Work ( mod is definately loaded )"
 		);
 		is( $v, $e, "Value is as expected from $mod" );
-#		note explain { got => $v, want => $e };
+
+		#		note explain { got => $v, want => $e };
 	}
 }
 

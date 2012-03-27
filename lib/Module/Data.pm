@@ -48,7 +48,9 @@ around BUILDARGS => sub {
 
 =method package
 
-Returns the package the C<Module::Data> instance was created for.
+Returns the package the C<Module::Data> instance was created for. ( In essence,
+this will just return the value you passed during C<new>, nothing more, nothing
+less.
 
 	my $package = $md->package 
 
@@ -74,26 +76,59 @@ has _notional_name => (
 	},
 );
 
-sub _find_module_perl {
+=method loaded
+
+Check to see if the module is already recorded as being loaded in C<%INC>
+
+	if ( $md->loaded ) {
+		say "$md was loaded";
+	}
+
+=cut
+
+sub loaded {
 	my ($self) = @_;
+	return exists $INC{ $self->_notional_name };
+}
+
+=method require
+
+Require the module be loaded into memory and the global stash.
+
+  my $mod = Module::Data->new( 'Foo' ); # nothing much happens.
+  $mod->require; # like 'require Foo';
+
+Returns the L</package> name itself for convenience so you can do
+
+  my $mod = Module::Data->new('Foo');
+  $mod->require->new( %args );
+
+=cut
+
+sub require {
+	my ($self) = @_;
+	return $self->package if $self->loaded;
+
 	require Module::Runtime;
 	Module::Runtime::require_module( $self->package );
+	return $self->package;
+}
+
+sub _find_module_perl {
+	my ($self) = @_;
+	$self->require;
 	return $INC{ $self->_notional_name };
 }
 
 sub _find_module_emulate {
 	my ($self) = @_;
-	my (@filename) = split /::/, $self->package;
-	$filename[-1] .= '.pm';
 	require Path::ScanINC;
-	return Path::ScanINC->new()->first_file(@filename);
+	return Path::ScanINC->new()->first_file( $self->_notional_name );
 }
 
 sub _find_module_optimistic {
 	my ($self) = @_;
-	if ( exists $INC{ $self->_notional_name } ) {
-		return $INC{ $self->_notional_name };
-	}
+	return $INC{ $self->_notional_name } if $self->loaded;
 	return $self->_find_module_emulate;
 }
 
@@ -103,7 +138,12 @@ sub _find_module_optimistic {
 
 A Path::Class::File with the absolute path to the found module.
 
+	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;
+
+C<$path> is computed optimisitically. If the L</package> is listed as being
+L</loaded>, then it asks C<%INC> for where it was found, otherwise, the path is
+resolved by simulating C<perl>'s path lookup in C<@INC> via L<Path::ScanINC>.
 
 =cut
 
@@ -124,7 +164,14 @@ sub _build_path {
 Returns the base directory of the tree the module was found at. 
 ( Probably from @INC );
 
-	my $root = $md->root
+	local @INC = (
+		"somewhere/asinine/",
+		"somewhere/in/space/",   # Where Lib::Foo::Bar is
+		"somethingelse/",
+	);
+	my $md = Module::Data->new( "Lib::Foo::Bar");
+	$md->path ; # somewhere/in/space/Lib/Foo/Bar.pm
+	my $root = $md->root # somewhere/in/space
 
 =cut
 
@@ -136,8 +183,6 @@ has root => (
 );
 
 sub _build_root {
-	my (@bits) = split /::/, $_[0]->package;
-	$bits[-1] .= '.pm';
 	my ($path) = $_[0]->path;
 
 	# Parent ne Self is the only cross-platform way
@@ -148,7 +193,7 @@ sub _build_root {
 			$path = $path->parent;
 			next;
 		}
-		if ( $path->file(@bits)->absolute eq $_[0]->path->absolute ) {
+		if ( $path->file( $self->_notional_name )->absolute eq $_[0]->path->absolute ) {
 			return $path->absolute;
 		}
 		$path = $path->parent;
@@ -159,17 +204,27 @@ sub _build_root {
 
 =method version
 
+If the module appears to be already loaded in memory:
+
 	my $v = $md->version;
 
-	# really just shorthand convenience for $PACKAGE->VERSION 
-	# will be possibly extracted out without loading the module first in a future release. 
+is merely shorthand for $package->VERSION;
+
+However, if if the module is not loaded into memory, all efforts to extract the
+value without loading the code permenantly are performed.
+
+Here, this means we compute the path to the file manually ( see L</path> ) and
+parse the file with L<Module::Metadata> to statically extract C<$VERSION>.
+
+This means you can unleash this code on your entire installed module tree, while
+incuring no permenant memory gain as you would normaly incur if you were to
+C<require> them all.
 
 =cut
 
 sub _version_perl {
 	my ($self) = @_;
-	my $mod = $self->_notional_name;
-	require $mod;
+	$self->require;
 
 	# has to load the code into memory to work
 	return $self->package->VERSION;
@@ -185,12 +240,8 @@ sub _version_emulate {
 
 sub _version_optimistic {
 	my ($self) = @_;
-	if ( exists $INC{ $self->_notional_name } ) {
-		return $self->package->VERSION;
-	}
-	else {
-		return $self->_version_emulate;
-	}
+	return $self->package->VERSION if $self->loaded;
+	return $self->_version_emulate;
 }
 
 sub version {
