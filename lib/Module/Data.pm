@@ -44,8 +44,6 @@ around BUILDARGS => sub {
 
 =cut
 
-## no critic ( ProhibitImplicitNewlines )
-
 =method package
 
 Returns the package the C<Module::Data> instance was created for. ( In essence,
@@ -59,21 +57,17 @@ less.
 has package => (
 	required => 1,
 	is       => 'ro',
-	isa      => quote_sub q{
-		die "given undef for 'package' , expects a Str/module name" if not defined $_[0];
-		die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];
-		require Module::Runtime;
-		Module::Runtime::check_module_name( $_[0] );
-	},
+	isa      => quote_sub q{}
+		. q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
+		. q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
+		. q{require Module::Runtime;}
+		. q{Module::Runtime::check_module_name( $_[0] );},
 );
 
 has _notional_name => (
 	is      => 'ro',
 	lazy    => 1,
-	default => quote_sub q{
-		require Module::Runtime;
-		return Module::Runtime::module_notional_filename( $_[0]->package );
-	},
+	default => quote_sub q{} . q{require Module::Runtime;} . q{return Module::Runtime::module_notional_filename( $_[0]->package );},
 );
 
 =method loaded
@@ -105,6 +99,7 @@ Returns the L</package> name itself for convenience so you can do
 
 =cut
 
+## no critic ( ProhibitBuiltinHomonyms )
 sub require {
 	my ($self) = @_;
 	return $self->package if $self->loaded;
@@ -143,7 +138,8 @@ A Path::Class::File with the absolute path to the found module.
 
 C<$path> is computed optimisitically. If the L</package> is listed as being
 L</loaded>, then it asks C<%INC> for where it was found, otherwise, the path is
-resolved by simulating C<perl>'s path lookup in C<@INC> via L<Path::ScanINC>.
+resolved by simulating C<perl>'s path lookup in C<@INC> via
+L<< C<Path::ScanINC>|Path::ScanINC >>.
 
 =cut
 
@@ -214,7 +210,7 @@ However, if if the module is not loaded into memory, all efforts to extract the
 value without loading the code permenantly are performed.
 
 Here, this means we compute the path to the file manually ( see L</path> ) and
-parse the file with L<Module::Metadata> to statically extract C<$VERSION>.
+parse the file with L<< C<Module::Metadata>|Module::Metadata >> to statically extract C<$VERSION>.
 
 This means you can unleash this code on your entire installed module tree, while
 incuring no permenant memory gain as you would normaly incur if you were to
@@ -248,6 +244,14 @@ sub version {
 	my ( $self, @junk ) = @_;
 	return $self->_version_optimistic;
 }
+
+=begin Pod::Coverage
+
+  BUILDARGS
+
+=end Pod::Coverage
+
+=cut
 
 no Moo;
 
