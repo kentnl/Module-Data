@@ -8,46 +8,55 @@ use Test::More;
 # ABSTRACT: Simulate a Fake Installed System and test no-require features
 
 use Test::Fatal;
-use Module::Data;
 use FindBin;
 use Path::Class qw( dir );
 
 my $tlib = dir($FindBin::RealBin)->subdir('03_t');
 
-# Load All modules we really need early to stop @INC messes.
-
-require File::Spec;
-require Try::Tiny;
-require Scalar::Util;
-require Data::Dump;
-require Carp;
-require Path::ScanINC;
-require Module::Runtime;
-require Module::Metadata;
-require version;
-require Data::Dumper;
-
 my $realinc = {%INC};
 my $newinc  = {};
 
-# Simulates an empty %INC somewhat.
-for my $lib (
-	'overload',   'warnings',         'Module::Runtime', 'Path::Class::File', 'Path::ScanINC', 'Scalar::Util',
-	'File::Spec', 'Module::Metadata', 'version',         'strict',            'Data::Dumper',
-	)
-{
+my $module_whitelist;
+
+my @whitelist;
+my @noload_whitelist;
+
+push @whitelist,        qw( Module::Data Test::More Data::Dumper warnings );
+push @whitelist,        qw( Module::Runtime overload Path::Class::File );
+push @whitelist,        qw( Path::ScanINC Scalar::Util File::Spec Cwd );
+push @whitelist,        qw( Module::Metadata strict version );
+push @noload_whitelist, qw( Test::A Test::B Test::C Test::D );
+
+require Module::Runtime;
+
+for my $lib (@whitelist) {
+	Module::Runtime::require_module($lib);
 	my $nn = Module::Runtime::module_notional_filename($lib);
-	$newinc->{$nn} = $realinc->{$nn};
+	$newinc->{$nn}           = $realinc->{$nn};
+	$module_whitelist->{$nn} = 1;
+}
+for my $lib (@noload_whitelist) {
+	my $nn = Module::Runtime::module_notional_filename($lib);
+	$module_whitelist->{$nn} = 1;
 }
 
 {
-	local @INC;
 	local %INC;
 	%INC = ( %{$newinc} );
 
 	@INC = (
-		$tlib->subdir('lib/site_perl/VERSION/ARCH-linux')->stringify, $tlib->subdir('lib/site_perl/VERSION')->stringify,
-		$tlib->subdir('lib/VERSION/ARCH-linux')->stringify,           $tlib->subdir('lib/VERSION')->stringify,
+		sub {
+			my ( $code, $filename ) = @_;
+			if ( not exists $module_whitelist->{$filename} ) {
+				die "$filename requested but not whitelisted";
+			}
+			return;
+		},
+
+		$tlib->subdir('lib/site_perl/VERSION/ARCH-linux')->stringify,
+		$tlib->subdir('lib/site_perl/VERSION')->stringify,
+		$tlib->subdir('lib/VERSION/ARCH-linux')->stringify,
+		$tlib->subdir('lib/VERSION')->stringify,
 	);
 
 	my @mods;

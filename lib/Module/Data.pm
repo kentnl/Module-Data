@@ -193,7 +193,7 @@ sub _build_root {
 			$path = $path->parent;
 			next;
 		}
-		if ( $path->file( $self->_notional_name )->absolute eq $_[0]->path->absolute ) {
+		if ( $path->file( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
 			return $path->absolute;
 		}
 		$path = $path->parent;
