@@ -1,21 +1,19 @@
 use strict;
 use warnings;
 
+# vim: set ts=4 noet sw=2 textwidth=80:
+
 package Module::Data;
 BEGIN {
   $Module::Data::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Module::Data::VERSION = '0.001';
+  $Module::Data::VERSION = '0.002';
 }
 
 # ABSTRACT: Introspect context information about modules in @INC
-
 use Moo;
 use Sub::Quote;
-use Module::Runtime qw();
-use Path::Class::File;
-use Path::Class::Dir;
 
 around BUILDARGS => sub {
 	my ( $orig, $class, @args ) = @_;
@@ -26,35 +24,57 @@ around BUILDARGS => sub {
 };
 
 
-## no critic ( ProhibitImplicitNewlines )
-
 
 has package => (
 	required => 1,
 	is       => 'ro',
-	isa      => quote_sub q{
-        die "given undef for 'package' , expects a Str/module name" if not defined $_[0];
-        die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];
-        Module::Runtime::check_module_name( $_[0] );
-    },
+	isa      => quote_sub q{}
+		. q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
+		. q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
+		. q{require Module::Runtime;}
+		. q{Module::Runtime::check_module_name( $_[0] );},
 );
 
 has _notional_name => (
 	is      => 'ro',
 	lazy    => 1,
-	default => quote_sub q{
-        return Module::Runtime::module_notional_filename( $_[0]->package );
-    },
+	default => quote_sub q{} . q{require Module::Runtime;} . q{return Module::Runtime::module_notional_filename( $_[0]->package );},
 );
 
-has _inc_path => (
-	is      => 'ro',
-	lazy    => 1,
-	default => quote_sub q|
-        Module::Runtime::require_module( $_[0]->package );
-        return $INC{ $_[0]->_notional_name };
-    |,
-);
+
+sub loaded {
+	my ($self) = @_;
+	return exists $INC{ $self->_notional_name };
+}
+
+
+## no critic ( ProhibitBuiltinHomonyms )
+sub require {
+	my ($self) = @_;
+	return $self->package if $self->loaded;
+
+	require Module::Runtime;
+	Module::Runtime::require_module( $self->package );
+	return $self->package;
+}
+
+sub _find_module_perl {
+	my ($self) = @_;
+	$self->require;
+	return $INC{ $self->_notional_name };
+}
+
+sub _find_module_emulate {
+	my ($self) = @_;
+	require Path::ScanINC;
+	return Path::ScanINC->new()->first_file( $self->_notional_name );
+}
+
+sub _find_module_optimistic {
+	my ($self) = @_;
+	return $INC{ $self->_notional_name } if $self->loaded;
+	return $self->_find_module_emulate;
+}
 
 ## use critic
 
@@ -67,7 +87,8 @@ has path => (
 );
 
 sub _build_path {
-	return Path::Class::File->new( $_[0]->_inc_path )->absolute;
+	require Path::Class::File;
+	return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
 }
 
 
@@ -79,8 +100,6 @@ has root => (
 );
 
 sub _build_root {
-	my (@bits) = split /::/, $_[0]->package;
-	$bits[-1] .= '.pm';
 	my ($path) = $_[0]->path;
 
 	# Parent ne Self is the only cross-platform way
@@ -91,7 +110,7 @@ sub _build_root {
 			$path = $path->parent;
 			next;
 		}
-		if ( $path->file(@bits)->absolute eq $_[0]->path->absolute ) {
+		if ( $path->file( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
 			return $path->absolute;
 		}
 		$path = $path->parent;
@@ -101,10 +120,34 @@ sub _build_root {
 }
 
 
-sub version {
-	my ( $self, @junk ) = @_;
+sub _version_perl {
+	my ($self) = @_;
+	$self->require;
+
+	# has to load the code into memory to work
 	return $self->package->VERSION;
 }
+
+sub _version_emulate {
+	my ($self) = @_;
+	my $path = $self->path;
+	require Module::Metadata;
+	my $i = Module::Metadata->new_from_file( $path, collect_pod => 0 );
+	return $i->version( $self->package );
+}
+
+sub _version_optimistic {
+	my ($self) = @_;
+	return $self->package->VERSION if $self->loaded;
+	return $self->_version_emulate;
+}
+
+sub version {
+	my ( $self, @junk ) = @_;
+	return $self->_version_optimistic;
+}
+
+
 no Moo;
 
 1;
@@ -120,62 +163,108 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
-    use Module::Data;
+	use Module::Data;
 
-    my $d = Module::Data->new( 'Package::Stash' );
+	my $d = Module::Data->new( 'Package::Stash' );
 
-    $d->path; # returns the path to where Package::Stash was found in @INC
+	$d->path; # returns the path to where Package::Stash was found in @INC
 
-    $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
 
-    # Convenient trick to discern if you're in a development environment
+	# Convenient trick to discern if you're in a development environment
 
-    my $d = Module::Data->new( 'Module::Im::Developing' );
+	my $d = Module::Data->new( 'Module::Im::Developing' );
 
-    if ( -e $d->root->parent->dir('share') ) {
-        # Yep, this dir exists, so we're in a dev context.
-        # because we know in the development context all modules are in lib/*/*
-        # so if the modules are anywhere else, its not a dev context.
-        # see File::ShareDir::ProjectDistDir for more.
-    }
+	if ( -e $d->root->parent->subdir('share') ) {
+		# Yep, this dir exists, so we're in a dev context.
+		# because we know in the development context all modules are in lib/*/*
+		# so if the modules are anywhere else, its not a dev context.
+		# see File::ShareDir::ProjectDistDir for more.
+	}
 
 	# Helpful sugar. 
 
 	my $v = $d->version; 
 
-Presently all the guts are running of Perl INC{} magic, but work is in progress and this is just an early release for some base functionality. 
-
 =head1 METHODS
 
 =head2 package
 
-Returns the package the C<Module::Data> instance was created for.
+Returns the package the C<Module::Data> instance was created for. ( In essence,
+this will just return the value you passed during C<new>, nothing more, nothing
+less.
 
 	my $package = $md->package 
+
+=head2 loaded
+
+Check to see if the module is already recorded as being loaded in C<%INC>
+
+	if ( $md->loaded ) {
+		say "$md was loaded";
+	}
+
+=head2 require
+
+Require the module be loaded into memory and the global stash.
+
+  my $mod = Module::Data->new( 'Foo' ); # nothing much happens.
+  $mod->require; # like 'require Foo';
+
+Returns the L</package> name itself for convenience so you can do
+
+  my $mod = Module::Data->new('Foo');
+  $mod->require->new( %args );
 
 =head2 path
 
 A Path::Class::File with the absolute path to the found module.
 
+	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;
+
+C<$path> is computed optimisitically. If the L</package> is listed as being
+L</loaded>, then it asks C<%INC> for where it was found, otherwise, the path is
+resolved by simulating C<perl>'s path lookup in C<@INC> via
+L<< C<Path::ScanINC>|Path::ScanINC >>.
 
 =head2 root
 
 Returns the base directory of the tree the module was found at. 
 ( Probably from @INC );
 
-	my $root = $md->root
+	local @INC = (
+		"somewhere/asinine/",
+		"somewhere/in/space/",   # Where Lib::Foo::Bar is
+		"somethingelse/",
+	);
+	my $md = Module::Data->new( "Lib::Foo::Bar");
+	$md->path ; # somewhere/in/space/Lib/Foo/Bar.pm
+	my $root = $md->root # somewhere/in/space
 
 =head2 version
 
+If the module appears to be already loaded in memory:
+
 	my $v = $md->version;
 
-	# really just shorthand convenience for $PACKAGE->VERSION 
-	# will be possibly extracted out without loading the module first in a future release. 
+is merely shorthand for $package->VERSION;
+
+However, if if the module is not loaded into memory, all efforts to extract the
+value without loading the code permenantly are performed.
+
+Here, this means we compute the path to the file manually ( see L</path> ) and
+parse the file with L<< C<Module::Metadata>|Module::Metadata >> to statically extract C<$VERSION>.
+
+This means you can unleash this code on your entire installed module tree, while
+incuring no permenant memory gain as you would normaly incur if you were to
+C<require> them all.
+
+=for Pod::Coverage   BUILDARGS
 
 =head1 AUTHOR
 

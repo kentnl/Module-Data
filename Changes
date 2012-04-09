@@ -1,5 +1,24 @@
 Release history for Module-Data
 
+0.002 2012-04-09T02:01:46Z
+ [Dependencies::New]
+ - Runtime requires : Module::Metadata
+ - Runtime requires : Path::ScanINC
+
+ [Internals]
+ - Rework module discovery to be optimistic, check %INC if its there
+   already, and if it is, report where it was found, otherwise, ask
+   Path::ScanINC to tell us where it is WITHOUT loading it. This will
+   hopefully be usefull in many cases allowing us to detect module
+   availability without needing the compile/memory overheads of actually
+   loading said modules
+ - Rework ->version call to be optimistic, ask PACKAGE->VERSION for version
+   if the package appears to be loaded, otherwise, fall back on
+   Path::ScanINC to find the file, and Module::Metadata to extract the
+   version out of it. The hope is that will eliminate the need to load the
+   whole module permenantly into memory *just* to discern what version it
+   is.
+
 0.001 2012-03-23T15:37:57Z
  - First version.
 
