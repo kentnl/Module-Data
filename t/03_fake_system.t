@@ -10,11 +10,11 @@ use Test::More;
 use Test::Fatal;
 use FindBin;
 use Path::Class qw( dir );
+use Carp qw( confess );
 
 my $tlib = dir($FindBin::RealBin)->subdir('03_t');
 
-my $realinc = {%INC};
-my $newinc  = {};
+my $newinc = {};
 
 my $module_whitelist;
 
@@ -30,16 +30,16 @@ push @noload_whitelist, qw( Test::A Test::B Test::C Test::D );
 require Module::Runtime;
 
 for my $lib (@whitelist) {
-	Module::Runtime::require_module($lib);
+	Module::Runtime::use_module($lib);
 	my $nn = Module::Runtime::module_notional_filename($lib);
-	$newinc->{$nn}           = $realinc->{$nn};
+	$newinc->{$nn} = $INC{$nn} if exists $INC{$nn};
 	$module_whitelist->{$nn} = 1;
 }
 for my $lib (@noload_whitelist) {
 	my $nn = Module::Runtime::module_notional_filename($lib);
 	$module_whitelist->{$nn} = 1;
 }
-
+my $realinc = {%INC};
 {
 	local %INC;
 	%INC = ( %{$newinc} );
@@ -48,7 +48,16 @@ for my $lib (@noload_whitelist) {
 		sub {
 			my ( $code, $filename ) = @_;
 			if ( not exists $module_whitelist->{$filename} ) {
-				die "$filename requested but not whitelisted";
+				confess(
+					"$filename requested but not whitelisted "
+						. Data::Dumper::Dumper(
+						{
+							real_inc  => $realinc,
+							local_inc => \%INC,
+							whitelist => $module_whitelist,
+						}
+						)
+				);
 			}
 			return;
 		},
