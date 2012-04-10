@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+
+0.003 2012-04-10T09:11:18Z
  [Dependencies::New]
  - Test requires: Carp
 
