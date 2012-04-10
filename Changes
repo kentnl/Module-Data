@@ -1,11 +1,22 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Dependencies::New]
+ - Test requires: Carp
+
+ [Tests]
+ - Improved 03_fake_system.t reporting to reveal why win32 is requring()
+   "wrong".
 
 0.002 2012-04-09T02:01:46Z
  [Dependencies::New]
  - Runtime requires : Module::Metadata
  - Runtime requires : Path::ScanINC
+ - Test requires : Path::Class
+ - Test requires : FindBin
+
+ [Dependencies::Removed]
+ - Runtime requires : Path::Class::Dir
 
  [Internals]
  - Rework module discovery to be optimistic, check %INC if its there
