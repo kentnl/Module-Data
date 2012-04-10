@@ -14,7 +14,6 @@ t/000-report-versions-tiny.t
 t/01_basic.t
 t/02_version.t
 t/03_fake_system.t
-t/03_fake_system.t.20120326.141030
 t/03_t/lib/VERSION/ARCH-linux/.keep
 t/03_t/lib/VERSION/ARCH-linux/Test/A.pm
 t/03_t/lib/VERSION/ARCH-linux/Test/B.pm

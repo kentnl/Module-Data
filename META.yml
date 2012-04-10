@@ -3,6 +3,7 @@ abstract: 'Introspect context information about modules in @INC'
 author:
   - 'Kent Fredric <kentnl@cpan.org>'
 build_requires:
+  Carp: 0
   Data::Dump: 0
   File::Find: 0
   File::Temp: 0
@@ -23,7 +24,7 @@ name: Module-Data
 provides:
   Module::Data:
     file: lib/Module/Data.pm
-    version: 0.002
+    version: 0.003
 requires:
   Module::Metadata: 0
   Module::Runtime: 0
@@ -37,9 +38,10 @@ requires:
 resources:
   homepage: https://github.com/kentfredric/Module-Data
   repository: https://github.com/kentfredric/Module-Data.git
-version: 0.002
+version: 0.003
 x_BuiltWith:
   modules:
+    Carp: 1.25
     Data::Dump: 1.21
     Dist::Zilla::PluginBundle::Author::KENTNL: 1.3.1
     Dist::Zilla::PluginBundle::Author::KENTNL::Lite: 'NA(possibly not installed)'

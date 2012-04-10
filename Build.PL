@@ -7,6 +7,7 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   "build_requires" => {
+    "Carp" => 0,
     "Data::Dump" => 0,
     "File::Find" => 0,
     "File::Temp" => 0,
@@ -24,7 +25,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Module-Data",
-  "dist_version" => "0.002",
+  "dist_version" => "0.003",
   "license" => "perl",
   "module_name" => "Module::Data",
   "recommends" => {},

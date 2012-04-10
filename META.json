@@ -50,6 +50,7 @@
       },
       "test" : {
          "requires" : {
+            "Carp" : "0",
             "Data::Dump" : "0",
             "File::Find" : "0",
             "File::Temp" : "0",
@@ -63,7 +64,7 @@
    "provides" : {
       "Module::Data" : {
          "file" : "lib/Module/Data.pm",
-         "version" : "0.002"
+         "version" : "0.003"
       }
    },
    "release_status" : "stable",
@@ -75,9 +76,10 @@
          "web" : "https://github.com/kentfredric/Module-Data"
       }
    },
-   "version" : "0.002",
+   "version" : "0.003",
    "x_BuiltWith" : {
       "modules" : {
+         "Carp" : "1.25",
          "Data::Dump" : "1.21",
          "Dist::Zilla::PluginBundle::Author::KENTNL" : "1.3.1",
          "Dist::Zilla::PluginBundle::Author::KENTNL::Lite" : "NA(possibly not installed)",
