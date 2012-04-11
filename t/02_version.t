@@ -2,33 +2,33 @@ use strict;
 use warnings;
 
 use Test::More;
+use FindBin;
+use Path::Class qw( dir );
 
 # FILENAME: 02_version.t
 # CREATED: 24/03/12 04:29:05 by Kent Fredric (kentnl) <kentfredric@gmail.com>
 # ABSTRACT: Test version lookup
 
-use Module::Runtime;
-my $realinc = {%INC};
-my $newinc  = {};
-my @whitelist;
-push @whitelist, qw( Module::Data Test::More Data::Dumper warnings );
-push @whitelist, qw( Module::Runtime overload );
+my $gtlib = dir($FindBin::RealBin)->subdir('tlib');
 
-# Simulates an empty %INC somewhat.
-for my $lib (@whitelist) {
-	Module::Runtime::require_module($lib);
-	my $nn = Module::Runtime::module_notional_filename($lib);
-	$newinc->{$nn} = $realinc->{$nn};
-}
+unshift @INC, "$gtlib";
+require Whitelist;
+
+my $wl = Whitelist->new();
+
+$wl->whitelist(qw( Module::Data Test::More Data::Dumper warnings ));
+$wl->whitelist(qw( Module::Runtime overload ));
+$wl->noload_whitelist(qw( TB2::History Carp TB2::Mouse TB2::Types TB2::StackBuilder ));
+$wl->noload_whitelist(qw( TB2::Mouse::Exporter TB2::Mouse::Meta::Role::Composite ));
+$wl->noload_whitelist(qw( TB2::Mouse::Meta::Role::Application ));
+$wl->freeze;
+
+my $newinc  = $wl->{whitelist_inc};
+my $realinc = $wl->{real_inc};
 
 {
-	unshift @INC, sub {
-		my ( $code, $filename ) = @_;
-		if ( not exists $newinc->{$filename} ) {
-			die "$filename requested but not whitelisted";
-		}
-		return;
-	};
+	unshift @INC, $wl->checker();
+
 	local %INC;
 
 	%INC = ( %{$newinc} );

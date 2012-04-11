@@ -24,7 +24,7 @@ name: Module-Data
 provides:
   Module::Data:
     file: lib/Module/Data.pm
-    version: 0.004
+    version: 0.005
 requires:
   Module::Metadata: 0
   Module::Runtime: 0
@@ -38,12 +38,12 @@ requires:
 resources:
   homepage: https://github.com/kentfredric/Module-Data
   repository: https://github.com/kentfredric/Module-Data.git
-version: 0.004
+version: 0.005
 x_BuiltWith:
   modules:
     Carp: 1.25
     Data::Dump: 1.21
-    Dist::Zilla::PluginBundle::Author::KENTNL: 1.3.1
+    Dist::Zilla::PluginBundle::Author::KENTNL: 1.4.0
     Dist::Zilla::PluginBundle::Author::KENTNL::Lite: 'NA(possibly not installed)'
     File::Find: 1.20
     File::Temp: 0.22
@@ -57,7 +57,7 @@ x_BuiltWith:
     Path::ScanINC: 0.002
     Sub::Quote: NA(undef)
     Test::Fatal: 0.010
-    Test::More: 0.98
+    Test::More: 1.005000004
     perl: 'NA(skipped: perl)'
     strict: 1.06
     warnings: 1.13
@@ -79,7 +79,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::NextVersion
       name: '@Author::KENTNL/Git::NextVersion'
-      version: 1.120970
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::MetaConfig
       name: '@Author::KENTNL/MetaConfig'
@@ -110,9 +110,9 @@ x_Dist_Zilla:
       name: '@Author::KENTNL/MetaData::BuiltWith'
       version: 0.03000000
     -
-      class: Dist::Zilla::Plugin::GatherDir
-      name: '@Author::KENTNL/GatherDir'
-      version: 4.300014
+      class: Dist::Zilla::Plugin::Git::GatherDir
+      name: '@Author::KENTNL/Git::GatherDir'
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::License
       name: '@Author::KENTNL/License'
@@ -216,7 +216,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Author::KENTNL::MinimumPerl
       name: '@Author::KENTNL/Author::KENTNL::MinimumPerl'
-      version: 1.3.1
+      version: 1.4.0
     -
       class: Dist::Zilla::Plugin::Authority
       name: '@Author::KENTNL/Authority'
@@ -248,23 +248,23 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::Check
       name: '@Author::KENTNL/Git::Check'
-      version: 1.120970
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Author::KENTNL/Git::Tag/tag_master'
-      version: 1.120970
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::Git::Commit
       name: '@Author::KENTNL/Git::Commit'
-      version: 1.120970
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::Git::CommitBuild
       name: '@Author::KENTNL/Git::CommitBuild'
-      version: 1.120970
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Author::KENTNL/Git::Tag/tag_release'
-      version: 1.120970
+      version: 1.121010
     -
       class: Dist::Zilla::Plugin::UploadToCPAN
       name: '@Author::KENTNL/UploadToCPAN'

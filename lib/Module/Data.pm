@@ -8,7 +8,7 @@ BEGIN {
   $Module::Data::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Module::Data::VERSION = '0.004';
+  $Module::Data::VERSION = '0.005';
 }
 
 # ABSTRACT: Introspect context information about modules in @INC
@@ -163,7 +163,7 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 

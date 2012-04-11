@@ -26,6 +26,7 @@ t/03_t/lib/site_perl/VERSION/ARCH-linux/.keep
 t/03_t/lib/site_perl/VERSION/ARCH-linux/Test/A.pm
 t/03_t/lib/site_perl/VERSION/Test/A.pm
 t/03_t/lib/site_perl/VERSION/Test/B.pm
+t/tlib/Whitelist.pm
 weaver.ini
 xt/author/critic.t
 xt/release/cpan-changes.t

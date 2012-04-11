@@ -10,62 +10,38 @@ use Test::More;
 use Test::Fatal;
 use FindBin;
 use Path::Class qw( dir );
-use Carp qw( confess );
 
-my $tlib = dir($FindBin::RealBin)->subdir('03_t');
+my $tlib  = dir($FindBin::RealBin)->subdir('03_t');
+my $gtlib = dir($FindBin::RealBin)->subdir('tlib');
 
-my $newinc = {};
+unshift @INC, "$gtlib";
+require Whitelist;
 
-my $module_whitelist;
+my $wl = Whitelist->new();
+$wl->whitelist(qw( Module::Data Test::More Data::Dumper warnings ));
+$wl->whitelist(qw( Module::Runtime overload Path::Class::File ));
+$wl->whitelist(qw( Path::ScanINC Scalar::Util File::Spec Cwd ));
+$wl->whitelist(qw( Module::Metadata strict version ));
+$wl->noload_whitelist(qw( Test::A Test::B Test::C Test::D ));
+$wl->noload_whitelist(qw( TB2::History TB2::StackBuilder Carp TB2::Mouse ));
+$wl->noload_whitelist(qw( TB2::Types TB2::Mouse::Exporter TB2::Mouse::Meta::Role::Composite ));
+$wl->noload_whitelist(qw( TB2::Mouse::Meta::Role::Application ));
 
-my @whitelist;
-my @noload_whitelist;
+$wl->freeze;
 
-push @whitelist,        qw( Module::Data Test::More Data::Dumper warnings );
-push @whitelist,        qw( Module::Runtime overload Path::Class::File );
-push @whitelist,        qw( Path::ScanINC Scalar::Util File::Spec Cwd );
-push @whitelist,        qw( Module::Metadata strict version );
-push @noload_whitelist, qw( Test::A Test::B Test::C Test::D );
+my $newinc  = $wl->{whitelist_inc};
+my $realinc = $wl->{real_inc};
 
-require Module::Runtime;
-
-for my $lib (@whitelist) {
-	Module::Runtime::use_module($lib);
-	my $nn = Module::Runtime::module_notional_filename($lib);
-	$newinc->{$nn} = $INC{$nn} if exists $INC{$nn};
-	$module_whitelist->{$nn} = 1;
-}
-for my $lib (@noload_whitelist) {
-	my $nn = Module::Runtime::module_notional_filename($lib);
-	$module_whitelist->{$nn} = 1;
-}
-my $realinc = {%INC};
 {
 	local %INC;
 	%INC = ( %{$newinc} );
 
 	@INC = (
-		sub {
-			my ( $code, $filename ) = @_;
-			if ( not exists $module_whitelist->{$filename} ) {
-				confess(
-					"$filename requested but not whitelisted "
-						. Data::Dumper::Dumper(
-						{
-							real_inc  => $realinc,
-							local_inc => \%INC,
-							whitelist => $module_whitelist,
-						}
-						)
-				);
-			}
-			return;
-		},
-
+		$wl->checker(),
 		$tlib->subdir('lib/site_perl/VERSION/ARCH-linux')->stringify,
 		$tlib->subdir('lib/site_perl/VERSION')->stringify,
 		$tlib->subdir('lib/VERSION/ARCH-linux')->stringify,
-		$tlib->subdir('lib/VERSION')->stringify,
+		$tlib->subdir('lib/VERSION')->stringify, @INC,
 	);
 
 	my @mods;
