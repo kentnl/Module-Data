@@ -1,6 +1,12 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Bugfixes]
+ - Update of the test code to not fail prematurely under Test::Builder2
+
+ [Tests]
+ - Refactored Whitelisting logic into its own t/tlib/ module 'Whitelist'
+ - Updated 02 & 03 to whitelist modules loaded by Test::Builder2
 
 0.004 2012-04-11T06:01:11Z
  [Dependencies::Changed]

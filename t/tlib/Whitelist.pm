@@ -7,7 +7,7 @@ package Whitelist;
 # CREATED: 12/04/12 06:33:42 by Kent Fredric (kentnl) <kentfredric@gmail.com>
 # ABSTRACT: A basic test whitelist
 use Carp qw( confess );
-require Data::Dumper;
+require Data::Dump;
 
 sub new {
 	my ( $class, @args ) = @_;
@@ -56,7 +56,7 @@ sub checker {
 		return if exists $self->{module_whitelist}->{$filename};
 		confess(
 			"$filename requested but not whitelisted"
-				. Data::Dumper::Dumper(
+				. Data::Dump::pp(
 				{
 					real_inc         => $self->{real_inc},
 					whitelist_inc    => $self->{whitelist_inc},
