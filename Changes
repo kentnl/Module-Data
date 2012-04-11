@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+
+0.004 2012-04-11T06:01:11Z
  [Dependencies::Changed]
  - Runtime requires : Path::ScanINC 0 -> 0.002
 
