@@ -25,7 +25,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Module-Data",
-  "dist_version" => "0.003",
+  "dist_version" => "0.004",
   "license" => "perl",
   "module_name" => "Module::Data",
   "recommends" => {},
@@ -35,7 +35,7 @@ my %module_build_args = (
     "Module::Runtime" => 0,
     "Moo" => 0,
     "Path::Class::File" => 0,
-    "Path::ScanINC" => 0,
+    "Path::ScanINC" => "0.002",
     "Sub::Quote" => 0,
     "perl" => "5.006",
     "strict" => 0,

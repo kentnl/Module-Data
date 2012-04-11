@@ -1,5 +1,9 @@
 Release history for Module-Data
 
+0.004 2012-04-11T06:01:11Z
+ [Dependencies::Changed]
+ - Runtime requires : Path::ScanINC 0 -> 0.002
+
 0.003 2012-04-10T09:11:18Z
  [Dependencies::New]
  - Test requires: Carp

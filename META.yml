@@ -24,13 +24,13 @@ name: Module-Data
 provides:
   Module::Data:
     file: lib/Module/Data.pm
-    version: 0.003
+    version: 0.004
 requires:
   Module::Metadata: 0
   Module::Runtime: 0
   Moo: 0
   Path::Class::File: 0
-  Path::ScanINC: 0
+  Path::ScanINC: 0.002
   Sub::Quote: 0
   perl: 5.006
   strict: 0
@@ -38,7 +38,7 @@ requires:
 resources:
   homepage: https://github.com/kentfredric/Module-Data
   repository: https://github.com/kentfredric/Module-Data.git
-version: 0.003
+version: 0.004
 x_BuiltWith:
   modules:
     Carp: 1.25
@@ -54,7 +54,7 @@ x_BuiltWith:
     Moo: 0.009014
     Path::Class: 0.25
     Path::Class::File: 0.25
-    Path::ScanINC: 0.001
+    Path::ScanINC: 0.002
     Sub::Quote: NA(undef)
     Test::Fatal: 0.010
     Test::More: 0.98
@@ -272,7 +272,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Twitter
       name: '@Author::KENTNL/Twitter'
-      version: 0.014
+      version: 0.015
     -
       class: Dist::Zilla::Plugin::Prereqs
       config:
