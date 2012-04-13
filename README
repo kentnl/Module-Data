@@ -2,7 +2,7 @@ NAME
     Module::Data - Introspect context information about modules in @INC
 
 VERSION
-    version 0.005
+    version 0.006
 
 SYNOPSIS
             use Module::Data;

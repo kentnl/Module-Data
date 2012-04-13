@@ -1,5 +1,10 @@
 Release history for Module-Data
 
+0.006 2012-04-13T04:02:46Z
+ [Tests]
+ - Replace call to Data::Dump::pp with a hand-written simple dumper as pp
+   is for some bizzare reason entering recursion.
+
 0.005 2012-04-11T20:33:42Z
  [Bugfixes]
  - Update of the test code to not fail prematurely under Test::Builder2
