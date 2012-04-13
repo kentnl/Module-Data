@@ -7,7 +7,6 @@ package Whitelist;
 # CREATED: 12/04/12 06:33:42 by Kent Fredric (kentnl) <kentfredric@gmail.com>
 # ABSTRACT: A basic test whitelist
 use Carp qw( confess );
-require Data::Dump;
 
 sub new {
 	my ( $class, @args ) = @_;
@@ -51,20 +50,35 @@ sub freeze {
 
 sub checker {
 	my ($self) = @_;
-	return sub {
+	my $dumper = sub {
+		my $dump_hash = sub {
+			my $hash   = shift;
+			my $prefix = shift;
+			$prefix = "  " if not defined $prefix;
+			return qq[{\n$prefix] . ( join qq{,\n$prefix}, map { $_ . ' => ' . $hash->{$_} } keys %{$hash} ) . qq[\n}];
+		};
+		my $string_values = sub {
+			my $hash = shift;
+			return { map { $_, 'q{' . $hash->{$_} . '}' } keys %{$hash} };
+		};
+
+		return $dump_hash->(
+			{
+				real_inc         => $dump_hash->( $string_values->( $self->{real_inc}, ),         "    " ),
+				whitelist_inc    => $dump_hash->( $string_values->( $self->{whitelist_inc}, ),    "    " ),
+				module_whitelist => $dump_hash->( $string_values->( $self->{module_whitelist}, ), "    " ),
+
+			}
+		);
+	};
+
+	my $coderef;
+	$coderef = sub {
 		my ( $code, $filename ) = @_;
 		return if exists $self->{module_whitelist}->{$filename};
-		confess(
-			"$filename requested but not whitelisted"
-				. Data::Dump::pp(
-				{
-					real_inc         => $self->{real_inc},
-					whitelist_inc    => $self->{whitelist_inc},
-					module_whitelist => $self->{module_whitelist},
-				}
-				)
-		);
-		}
+		confess( "$filename requested but not whitelisted:\n " . $dumper->() );
+	};
+
 }
 1;
 

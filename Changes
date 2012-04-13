@@ -1,6 +1,9 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Tests]
+ - Replace call to Data::Dump::pp with a hand-written simple dumper as pp
+   is for some bizzare reason entering recursion.
 
 0.005 2012-04-11T20:33:42Z
  [Bugfixes]
