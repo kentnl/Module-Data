@@ -1,15 +1,19 @@
 Release history for Module-Data
 
-0.008 2013-11-20T13:22:01Z
+0.010 2013-11-20T13:24:30Z
  [00 Minor]
  - Internals reimplemented in Path::Tiny
- - Trial release to give end users a bit of warning, because Path::Class objects were previously emitted.
- 
+ - Trial release to give end users a bit of warning, because Path::Class
+   objects were previously emitted.
+
  [Dependencies::Added / runtime requires]
  - Path::Tiny
 
  [Dependencies::Removed / runtime requires]
  - Path::Class::File
+
+ [Dependencies::Removed / test requires]
+ - Path::Class
 
 0.007 2013-11-20T13:09:23Z
  [00 BugFix]
