@@ -2,7 +2,7 @@ NAME
     Module::Data - Introspect context information about modules in @INC
 
 VERSION
-    version 0.006
+    version 0.007
 
 SYNOPSIS
             use Module::Data;
@@ -11,7 +11,7 @@ SYNOPSIS
 
             $d->path; # returns the path to where Package::Stash was found in @INC
 
-            $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+            $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside.
 
             # Convenient trick to discern if you're in a development environment
 
@@ -24,7 +24,7 @@ SYNOPSIS
                     # see File::ShareDir::ProjectDistDir for more.
             }
 
-            # Helpful sugar. 
+            # Helpful sugar.
 
             my $v = $d->version;
 
@@ -60,9 +60,9 @@ METHODS
             my $md = Module::Data->new( 'Foo' );
             my $path = $md->path;
 
-    $path is computed optimisitically. If the "package" is listed as being
+    $path is computed optimistically. If the "package" is listed as being
     "loaded", then it asks %INC for where it was found, otherwise, the path
-    is resolved by simulating "perl"'s path lookup in @INC via
+    is resolved by simulating "perl"'s path look up in @INC via
     "Path::ScanINC".
 
   root
@@ -86,21 +86,21 @@ METHODS
     is merely shorthand for $package->VERSION;
 
     However, if if the module is not loaded into memory, all efforts to
-    extract the value without loading the code permenantly are performed.
+    extract the value without loading the code permanently are performed.
 
     Here, this means we compute the path to the file manually ( see "path" )
     and parse the file with "Module::Metadata" to statically extract
     $VERSION.
 
     This means you can unleash this code on your entire installed module
-    tree, while incuring no permenant memory gain as you would normaly incur
-    if you were to "require" them all.
+    tree, while incurring no permanent memory gain as you would normally
+    incur if you were to "require" them all.
 
 AUTHOR
     Kent Fredric <kentnl@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2012 by Kent Fredric <kentnl@cpan.org>.
+    This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

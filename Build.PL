@@ -7,25 +7,17 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   "build_requires" => {
-    "Carp" => 0,
-    "Data::Dump" => 0,
-    "File::Find" => 0,
-    "File::Temp" => 0,
-    "FindBin" => 0,
-    "Module::Build" => "0.3601",
-    "Path::Class" => 0,
-    "Test::Fatal" => 0,
-    "Test::More" => "0.96"
+    "Module::Build" => "0.4202"
   },
   "configure_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.4202"
   },
   "dist_abstract" => "Introspect context information about modules in \@INC",
   "dist_author" => [
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Module-Data",
-  "dist_version" => "0.006",
+  "dist_version" => "0.007",
   "license" => "perl",
   "module_name" => "Module::Data",
   "recommends" => {},
@@ -41,9 +33,33 @@ my %module_build_args = (
     "strict" => 0,
     "warnings" => 0
   },
-  "script_files" => []
+  "script_files" => [],
+  "test_requires" => {
+    "Carp" => 0,
+    "Data::Dump" => 0,
+    "FindBin" => 0,
+    "Path::Class" => 0,
+    "Test::Fatal" => 0,
+    "Test::More" => "1.001002"
+  }
 );
 
+
+my %fallback_build_requires = (
+  "Carp" => 0,
+  "Data::Dump" => 0,
+  "FindBin" => 0,
+  "Module::Build" => "0.4202",
+  "Path::Class" => 0,
+  "Test::Fatal" => 0,
+  "Test::More" => "1.001002"
+);
+
+
+unless ( eval { Module::Build->VERSION(0.4004) } ) {
+  delete $module_build_args{test_requires};
+  $module_build_args{build_requires} = \%fallback_build_requires;
+}
 
 my $build = Module::Build->new(%module_build_args);
 
