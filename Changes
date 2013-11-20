@@ -1,0 +1,56 @@
+Release history for Module-Data
+
+0.007 2013-11-20T12:34:58Z
+
+0.006 2012-04-13T04:02:46Z
+ [Tests]
+ - Replace call to Data::Dump::pp with a hand-written simple dumper as pp
+   is for some bizzare reason entering recursion.
+
+0.005 2012-04-11T20:33:42Z
+ [Bugfixes]
+ - Update of the test code to not fail prematurely under Test::Builder2
+
+ [Tests]
+ - Refactored Whitelisting logic into its own t/tlib/ module 'Whitelist'
+ - Updated 02 & 03 to whitelist modules loaded by Test::Builder2
+
+0.004 2012-04-11T06:01:11Z
+ [Dependencies::Changed]
+ - Runtime requires : Path::ScanINC 0 -> 0.002
+
+0.003 2012-04-10T09:11:18Z
+ [Dependencies::New]
+ - Test requires: Carp
+
+ [Tests]
+ - Improved 03_fake_system.t reporting to reveal why win32 is requring()
+   "wrong".
+
+0.002 2012-04-09T02:01:46Z
+ [Dependencies::New]
+ - Runtime requires : Module::Metadata
+ - Runtime requires : Path::ScanINC
+ - Test requires : Path::Class
+ - Test requires : FindBin
+
+ [Dependencies::Removed]
+ - Runtime requires : Path::Class::Dir
+
+ [Internals]
+ - Rework module discovery to be optimistic, check %INC if its there
+   already, and if it is, report where it was found, otherwise, ask
+   Path::ScanINC to tell us where it is WITHOUT loading it. This will
+   hopefully be usefull in many cases allowing us to detect module
+   availability without needing the compile/memory overheads of actually
+   loading said modules
+ - Rework ->version call to be optimistic, ask PACKAGE->VERSION for version
+   if the package appears to be loaded, otherwise, fall back on
+   Path::ScanINC to find the file, and Module::Metadata to extract the
+   version out of it. The hope is that will eliminate the need to load the
+   whole module permenantly into memory *just* to discern what version it
+   is.
+
+0.001 2012-03-23T15:37:57Z
+ - First version.
+
