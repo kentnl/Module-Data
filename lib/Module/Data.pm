@@ -260,7 +260,7 @@ Here, this means we compute the path to the file manually ( see L</path> ) and
 parse the file with L<< C<Module::Metadata>|Module::Metadata >> to statically extract C<$VERSION>.
 
 This means you can unleash this code on your entire installed module tree, while
-incuring no permenant memory gain as you would normaly incur if you were to
+incurring no permanant memory gain as you would normally incur if you were to
 C<require> them all.
 
 =for Pod::Coverage   BUILDARGS

@@ -93,8 +93,8 @@ METHODS
     $VERSION.
 
     This means you can unleash this code on your entire installed module
-    tree, while incuring no permenant memory gain as you would normaly incur
-    if you were to "require" them all.
+    tree, while incurring no permanant memory gain as you would normally
+    incur if you were to "require" them all.
 
 AUTHOR
     Kent Fredric <kentnl@cpan.org>
