@@ -1,0 +1,115 @@
+# NAME
+
+Module::Data - Introspect context information about modules in @INC
+
+# VERSION
+
+version 0.007
+
+# SYNOPSIS
+
+	use Module::Data;
+
+	my $d = Module::Data->new( 'Package::Stash' );
+
+	$d->path; # returns the path to where Package::Stash was found in @INC
+
+	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+	# Convenient trick to discern if you're in a development environment
+
+	my $d = Module::Data->new( 'Module::Im::Developing' );
+
+	if ( -e $d->root->parent->subdir('share') ) {
+		# Yep, this dir exists, so we're in a dev context.
+		# because we know in the development context all modules are in lib/*/*
+		# so if the modules are anywhere else, its not a dev context.
+		# see File::ShareDir::ProjectDistDir for more.
+	}
+
+	# Helpful sugar. 
+	my $v = $d->version; 
+
+# METHODS
+
+## package
+
+Returns the package the `Module::Data` instance was created for. ( In essence,
+this will just return the value you passed during `new`, nothing more, nothing
+less.
+
+	my $package = $md->package 
+
+## loaded
+
+Check to see if the module is already recorded as being loaded in `%INC`
+
+	if ( $md->loaded ) {
+		say "$md was loaded";
+	}
+
+## require
+
+Require the module be loaded into memory and the global stash.
+
+    my $mod = Module::Data->new( 'Foo' ); # nothing much happens.
+    $mod->require; # like 'require Foo';
+
+Returns the ["package"](#package) name itself for convenience so you can do
+
+    my $mod = Module::Data->new('Foo');
+    $mod->require->new( %args );
+
+## path
+
+A Path::Class::File with the absolute path to the found module.
+
+	my $md = Module::Data->new( 'Foo' );
+	my $path = $md->path;
+
+`$path` is computed optimisitically. If the ["package"](#package) is listed as being
+["loaded"](#loaded), then it asks `%INC` for where it was found, otherwise, the path is
+resolved by simulating `perl`'s path lookup in `@INC` via
+[`Path::ScanINC`](https://metacpan.org/pod/Path::ScanINC).
+
+## root
+
+Returns the base directory of the tree the module was found at. 
+( Probably from @INC );
+
+	local @INC = (
+		"somewhere/asinine/",
+		"somewhere/in/space/",   # Where Lib::Foo::Bar is
+		"somethingelse/",
+	);
+	my $md = Module::Data->new( "Lib::Foo::Bar");
+	$md->path ; # somewhere/in/space/Lib/Foo/Bar.pm
+	my $root = $md->root # somewhere/in/space
+
+## version
+
+If the module appears to be already loaded in memory:
+
+	my $v = $md->version;
+
+is merely shorthand for $package->VERSION;
+
+However, if if the module is not loaded into memory, all efforts to extract the
+value without loading the code permenantly are performed.
+
+Here, this means we compute the path to the file manually ( see ["path"](#path) ) and
+parse the file with [`Module::Metadata`](https://metacpan.org/pod/Module::Metadata) to statically extract `$VERSION`.
+
+This means you can unleash this code on your entire installed module tree, while
+incuring no permenant memory gain as you would normaly incur if you were to
+`require` them all.
+
+# AUTHOR
+
+Kent Fredric <kentnl@cpan.org>
+
+# COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
