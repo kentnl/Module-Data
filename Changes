@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+
+0.007 2013-11-20T13:09:23Z
  [00 BugFix]
  - Prevent test failure with new Path::ScanINC
 
