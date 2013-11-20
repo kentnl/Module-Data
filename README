@@ -11,7 +11,7 @@ SYNOPSIS
 
             $d->path; # returns the path to where Package::Stash was found in @INC
 
-            $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+            $d->root; # returns the root directory in @INC that 'Package::Stash' was found inside.
 
             # Convenient trick to discern if you're in a development environment
 
@@ -24,7 +24,7 @@ SYNOPSIS
                     # see File::ShareDir::ProjectDistDir for more.
             }
 
-            # Helpful sugar. 
+            # Helpful sugar.
 
             my $v = $d->version;
 
