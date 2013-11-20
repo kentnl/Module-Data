@@ -1,8 +1,6 @@
 use strict;
 use warnings;
 
-# vim: set ts=4 noet sw=2 textwidth=80:
-
 package Module::Data;
 
 # ABSTRACT: Introspect context information about modules in @INC
@@ -136,9 +134,9 @@ A Path::Class::File with the absolute path to the found module.
 	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;
 
-C<$path> is computed optimisitically. If the L</package> is listed as being
+C<$path> is computed optimistically. If the L</package> is listed as being
 L</loaded>, then it asks C<%INC> for where it was found, otherwise, the path is
-resolved by simulating C<perl>'s path lookup in C<@INC> via
+resolved by simulating C<perl>'s path look up in C<@INC> via
 L<< C<Path::ScanINC>|Path::ScanINC >>.
 
 =cut
@@ -207,13 +205,13 @@ If the module appears to be already loaded in memory:
 is merely shorthand for $package->VERSION;
 
 However, if if the module is not loaded into memory, all efforts to extract the
-value without loading the code permenantly are performed.
+value without loading the code permanently are performed.
 
 Here, this means we compute the path to the file manually ( see L</path> ) and
 parse the file with L<< C<Module::Metadata>|Module::Metadata >> to statically extract C<$VERSION>.
 
 This means you can unleash this code on your entire installed module tree, while
-incuring no permenant memory gain as you would normaly incur if you were to
+incurring no permanent memory gain as you would normally incur if you were to
 C<require> them all.
 
 =cut

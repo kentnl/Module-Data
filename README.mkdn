@@ -68,9 +68,9 @@ A Path::Class::File with the absolute path to the found module.
 	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;
 
-`$path` is computed optimisitically. If the ["package"](#package) is listed as being
+`$path` is computed optimistically. If the ["package"](#package) is listed as being
 ["loaded"](#loaded), then it asks `%INC` for where it was found, otherwise, the path is
-resolved by simulating `perl`'s path lookup in `@INC` via
+resolved by simulating `perl`'s path look up in `@INC` via
 [`Path::ScanINC`](https://metacpan.org/pod/Path::ScanINC).
 
 ## root
@@ -96,13 +96,13 @@ If the module appears to be already loaded in memory:
 is merely shorthand for $package->VERSION;
 
 However, if if the module is not loaded into memory, all efforts to extract the
-value without loading the code permenantly are performed.
+value without loading the code permanently are performed.
 
 Here, this means we compute the path to the file manually ( see ["path"](#path) ) and
 parse the file with [`Module::Metadata`](https://metacpan.org/pod/Module::Metadata) to statically extract `$VERSION`.
 
 This means you can unleash this code on your entire installed module tree, while
-incuring no permenant memory gain as you would normaly incur if you were to
+incurring no permanent memory gain as you would normally incur if you were to
 `require` them all.
 
 # AUTHOR
