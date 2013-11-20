@@ -27,17 +27,17 @@ my $newinc  = $wl->{whitelist_inc};
 my $realinc = $wl->{real_inc};
 
 {
-	unshift @INC, $wl->checker();
+  unshift @INC, $wl->checker();
 
-	local %INC;
+  local %INC;
 
-	%INC = ( %{$newinc} );
+  %INC = ( %{$newinc} );
 
-	my $module = Module::Data->new('Test::More');    # because we know its loaded already
+  my $module = Module::Data->new('Test::More');    # because we know its loaded already
 
-	isnt( $module->version, undef, 'Module->version  works' );
+  isnt( $module->version, undef, 'Module->version  works' );
 
-	note explain [ $module->version ];
+  note explain [ $module->version ];
 }
 done_testing;
 

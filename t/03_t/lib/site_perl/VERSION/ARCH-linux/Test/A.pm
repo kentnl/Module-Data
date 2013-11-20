@@ -10,7 +10,7 @@ package Test::A;
 our $VERSION = 1.00;
 
 sub example {
-	return "A";
+  return "A";
 }
 
 1;

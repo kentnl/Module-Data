@@ -10,11 +10,11 @@ use Moo;
 use Sub::Quote;
 
 around BUILDARGS => sub {
-	my ( $orig, $class, @args ) = @_;
+  my ( $orig, $class, @args ) = @_;
 
-	unshift @args, 'package' if @args % 2 == 1;
+  unshift @args, 'package' if @args % 2 == 1;
 
-	return $class->$orig(@args);
+  return $class->$orig(@args);
 };
 
 =head1 SYNOPSIS
@@ -25,7 +25,7 @@ around BUILDARGS => sub {
 
 	$d->path; # returns the path to where Package::Stash was found in @INC
 
-	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside.
 
 	# Convenient trick to discern if you're in a development environment
 
@@ -38,9 +38,9 @@ around BUILDARGS => sub {
 		# see File::ShareDir::ProjectDistDir for more.
 	}
 
-	# Helpful sugar. 
+	# Helpful sugar.
 
-	my $v = $d->version; 
+	my $v = $d->version;
 
 =cut
 
@@ -50,24 +50,24 @@ Returns the package the C<Module::Data> instance was created for. ( In essence,
 this will just return the value you passed during C<new>, nothing more, nothing
 less.
 
-	my $package = $md->package 
+	my $package = $md->package
 
 =cut
 
 has package => (
-	required => 1,
-	is       => 'ro',
-	isa      => quote_sub q{}
-		. q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
-		. q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
-		. q{require Module::Runtime;}
-		. q{Module::Runtime::check_module_name( $_[0] );},
+  required => 1,
+  is       => 'ro',
+  isa      => quote_sub q{}
+    . q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
+    . q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
+    . q{require Module::Runtime;}
+    . q{Module::Runtime::check_module_name( $_[0] );},
 );
 
 has _notional_name => (
-	is      => 'ro',
-	lazy    => 1,
-	default => quote_sub q{} . q{require Module::Runtime;} . q{return Module::Runtime::module_notional_filename( $_[0]->package );},
+  is      => 'ro',
+  lazy    => 1,
+  default => quote_sub q{} . q{require Module::Runtime;} . q{return Module::Runtime::module_notional_filename( $_[0]->package );},
 );
 
 =method loaded
@@ -81,8 +81,8 @@ Check to see if the module is already recorded as being loaded in C<%INC>
 =cut
 
 sub loaded {
-	my ($self) = @_;
-	return exists $INC{ $self->_notional_name };
+  my ($self) = @_;
+  return exists $INC{ $self->_notional_name };
 }
 
 =method require
@@ -101,30 +101,30 @@ Returns the L</package> name itself for convenience so you can do
 
 ## no critic ( ProhibitBuiltinHomonyms )
 sub require {
-	my ($self) = @_;
-	return $self->package if $self->loaded;
+  my ($self) = @_;
+  return $self->package if $self->loaded;
 
-	require Module::Runtime;
-	Module::Runtime::require_module( $self->package );
-	return $self->package;
+  require Module::Runtime;
+  Module::Runtime::require_module( $self->package );
+  return $self->package;
 }
 
 sub _find_module_perl {
-	my ($self) = @_;
-	$self->require;
-	return $INC{ $self->_notional_name };
+  my ($self) = @_;
+  $self->require;
+  return $INC{ $self->_notional_name };
 }
 
 sub _find_module_emulate {
-	my ($self) = @_;
-	require Path::ScanINC;
-	return Path::ScanINC->new()->first_file( $self->_notional_name );
+  my ($self) = @_;
+  require Path::ScanINC;
+  return Path::ScanINC->new()->first_file( $self->_notional_name );
 }
 
 sub _find_module_optimistic {
-	my ($self) = @_;
-	return $INC{ $self->_notional_name } if $self->loaded;
-	return $self->_find_module_emulate;
+  my ($self) = @_;
+  return $INC{ $self->_notional_name } if $self->loaded;
+  return $self->_find_module_emulate;
 }
 
 ## use critic
@@ -144,20 +144,20 @@ L<< C<Path::ScanINC>|Path::ScanINC >>.
 =cut
 
 has path => (
-	is       => 'ro',
-	lazy     => 1,
-	init_arg => undef,
-	builder  => '_build_path',
+  is       => 'ro',
+  lazy     => 1,
+  init_arg => undef,
+  builder  => '_build_path',
 );
 
 sub _build_path {
-	require Path::Class::File;
-	return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
+  require Path::Class::File;
+  return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
 }
 
 =method root
 
-Returns the base directory of the tree the module was found at. 
+Returns the base directory of the tree the module was found at.
 ( Probably from @INC );
 
 	local @INC = (
@@ -172,29 +172,29 @@ Returns the base directory of the tree the module was found at.
 =cut
 
 has root => (
-	is       => 'ro',
-	lazy     => 1,
-	init_arg => undef,
-	builder  => '_build_root',
+  is       => 'ro',
+  lazy     => 1,
+  init_arg => undef,
+  builder  => '_build_root',
 );
 
 sub _build_root {
-	my ($path) = $_[0]->path;
+  my ($path) = $_[0]->path;
 
-	# Parent ne Self is the only cross-platform way
-	# I can think of that will stop at the top of a tree
-	# as / is not applicable on windows.
-	while ( $path->parent->absolute ne $path->absolute ) {
-		if ( not $path->is_dir ) {
-			$path = $path->parent;
-			next;
-		}
-		if ( $path->file( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
-			return $path->absolute;
-		}
-		$path = $path->parent;
-	}
-	return;
+  # Parent ne Self is the only cross-platform way
+  # I can think of that will stop at the top of a tree
+  # as / is not applicable on windows.
+  while ( $path->parent->absolute ne $path->absolute ) {
+    if ( not $path->is_dir ) {
+      $path = $path->parent;
+      next;
+    }
+    if ( $path->file( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
+      return $path->absolute;
+    }
+    $path = $path->parent;
+  }
+  return;
 
 }
 
@@ -219,30 +219,30 @@ C<require> them all.
 =cut
 
 sub _version_perl {
-	my ($self) = @_;
-	$self->require;
+  my ($self) = @_;
+  $self->require;
 
-	# has to load the code into memory to work
-	return $self->package->VERSION;
+  # has to load the code into memory to work
+  return $self->package->VERSION;
 }
 
 sub _version_emulate {
-	my ($self) = @_;
-	my $path = $self->path;
-	require Module::Metadata;
-	my $i = Module::Metadata->new_from_file( $path, collect_pod => 0 );
-	return $i->version( $self->package );
+  my ($self) = @_;
+  my $path = $self->path;
+  require Module::Metadata;
+  my $i = Module::Metadata->new_from_file( $path, collect_pod => 0 );
+  return $i->version( $self->package );
 }
 
 sub _version_optimistic {
-	my ($self) = @_;
-	return $self->package->VERSION if $self->loaded;
-	return $self->_version_emulate;
+  my ($self) = @_;
+  return $self->package->VERSION if $self->loaded;
+  return $self->_version_emulate;
 }
 
 sub version {
-	my ( $self, @junk ) = @_;
-	return $self->_version_optimistic;
+  my ( $self, @junk ) = @_;
+  return $self->_version_optimistic;
 }
 
 =begin Pod::Coverage
