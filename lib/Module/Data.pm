@@ -221,7 +221,7 @@ Returns the L</package> name itself for convenience so you can do
 
 =head2 path
 
-A Path::Class::File with the absolute path to the found module.
+A Path::Tiny object with the absolute path to the found module.
 
 	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;

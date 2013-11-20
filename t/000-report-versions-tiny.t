@@ -55,7 +55,6 @@ eval { $v .= pmver('Module::Build','0.4202') };
 eval { $v .= pmver('Module::Metadata','any version') };
 eval { $v .= pmver('Module::Runtime','any version') };
 eval { $v .= pmver('Moo','any version') };
-eval { $v .= pmver('Path::Class','any version') };
 eval { $v .= pmver('Path::ScanINC','0.002') };
 eval { $v .= pmver('Path::Tiny','any version') };
 eval { $v .= pmver('Sub::Quote','any version') };

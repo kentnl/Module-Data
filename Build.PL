@@ -38,7 +38,6 @@ my %module_build_args = (
     "Carp" => 0,
     "Data::Dump" => 0,
     "FindBin" => 0,
-    "Path::Class" => 0,
     "Test::Fatal" => 0,
     "Test::More" => "1.001002"
   }
@@ -50,7 +49,6 @@ my %fallback_build_requires = (
   "Data::Dump" => 0,
   "FindBin" => 0,
   "Module::Build" => "0.4202",
-  "Path::Class" => 0,
   "Test::Fatal" => 0,
   "Test::More" => "1.001002"
 );

@@ -99,7 +99,6 @@
             "Carp" : "0",
             "Data::Dump" : "0",
             "FindBin" : "0",
-            "Path::Class" : "0",
             "Test::Fatal" : "0",
             "Test::More" : "1.001002"
          }
@@ -177,7 +176,6 @@
          "Module::Metadata" : "1.000019",
          "Module::Runtime" : "0.013",
          "Moo" : "1.003001",
-         "Path::Class" : "0.32",
          "Path::ScanINC" : "0.010",
          "Path::Tiny" : "0.044",
          "Pod::Coverage::TrustPod" : "0.100003",
