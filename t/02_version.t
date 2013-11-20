@@ -3,13 +3,13 @@ use warnings;
 
 use Test::More;
 use FindBin;
-use Path::Class qw( dir );
+use Path::Tiny qw(path);
 
 # FILENAME: 02_version.t
 # CREATED: 24/03/12 04:29:05 by Kent Fredric (kentnl) <kentfredric@gmail.com>
 # ABSTRACT: Test version lookup
 
-my $gtlib = dir($FindBin::RealBin)->subdir('tlib');
+my $gtlib = path($FindBin::RealBin)->child('tlib');
 
 unshift @INC, "$gtlib";
 require Whitelist;

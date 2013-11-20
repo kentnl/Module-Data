@@ -9,18 +9,18 @@ use Test::More;
 
 use Test::Fatal;
 use FindBin;
-use Path::Class qw( dir );
+use Path::Tiny qw( path );
 
-my $tlib  = dir($FindBin::RealBin)->subdir('03_t');
-my $gtlib = dir($FindBin::RealBin)->subdir('tlib');
+my $tlib  = path($FindBin::RealBin)->child('03_t');
+my $gtlib = path($FindBin::RealBin)->child('tlib');
 
 unshift @INC, "$gtlib";
 require Whitelist;
 
 my $wl = Whitelist->new();
 $wl->whitelist(qw( Module::Data Test::More Data::Dumper warnings ));
-$wl->whitelist(qw( Module::Runtime overload Path::Class::File ));
-$wl->whitelist(qw( Path::ScanINC Path::Tiny Scalar::Util File::Spec Cwd ));
+$wl->whitelist(qw( Module::Runtime overload Path::Tiny ));
+$wl->whitelist(qw( Path::ScanINC Scalar::Util ));
 $wl->whitelist(qw( Module::Metadata strict version ));
 $wl->noload_whitelist(qw( Test::A Test::B Test::C Test::D ));
 $wl->noload_whitelist(qw( TB2::History TB2::StackBuilder Carp TB2::Mouse ));
@@ -38,10 +38,10 @@ my $realinc = $wl->{real_inc};
 
   @INC = (
     $wl->checker(),
-    $tlib->subdir('lib/site_perl/VERSION/ARCH-linux')->stringify,
-    $tlib->subdir('lib/site_perl/VERSION')->stringify,
-    $tlib->subdir('lib/VERSION/ARCH-linux')->stringify,
-    $tlib->subdir('lib/VERSION')->stringify, @INC,
+    $tlib->child('lib/site_perl/VERSION/ARCH-linux')->stringify,
+    $tlib->child('lib/site_perl/VERSION')->stringify,
+    $tlib->child('lib/VERSION/ARCH-linux')->stringify,
+    $tlib->child('lib/VERSION')->stringify, @INC,
   );
 
   my @mods;

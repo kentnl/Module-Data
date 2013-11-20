@@ -129,7 +129,7 @@ sub _find_module_optimistic {
 
 =method path
 
-A Path::Class::File with the absolute path to the found module.
+A Path::Tiny object with the absolute path to the found module.
 
 	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;
@@ -149,8 +149,8 @@ has path => (
 );
 
 sub _build_path {
-  require Path::Class::File;
-  return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
+  require Path::Tiny;
+  return Path::Tiny::path( $_[0]->_find_module_optimistic )->absolute;
 }
 
 =method root
@@ -187,7 +187,7 @@ sub _build_root {
       $path = $path->parent;
       next;
     }
-    if ( $path->file( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
+    if ( $path->child( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
       return $path->absolute;
     }
     $path = $path->parent;
