@@ -14,7 +14,8 @@ version 0.007
 
 	$d->path; # returns the path to where Package::Stash was found in @INC
 
-	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside. 
+	$d->root; # returns the root directory in @INC that 'Package::Stash' was found inside.
+
 	# Convenient trick to discern if you're in a development environment
 
 	my $d = Module::Data->new( 'Module::Im::Developing' );
@@ -26,8 +27,9 @@ version 0.007
 		# see File::ShareDir::ProjectDistDir for more.
 	}
 
-	# Helpful sugar. 
-	my $v = $d->version; 
+	# Helpful sugar.
+
+	my $v = $d->version;
 
 # METHODS
 
@@ -37,7 +39,7 @@ Returns the package the `Module::Data` instance was created for. ( In essence,
 this will just return the value you passed during `new`, nothing more, nothing
 less.
 
-	my $package = $md->package 
+	my $package = $md->package
 
 ## loaded
 
@@ -73,7 +75,7 @@ resolved by simulating `perl`'s path lookup in `@INC` via
 
 ## root
 
-Returns the base directory of the tree the module was found at. 
+Returns the base directory of the tree the module was found at.
 ( Probably from @INC );
 
 	local @INC = (
