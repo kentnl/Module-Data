@@ -27,8 +27,8 @@ requires:
   Module::Metadata: 0
   Module::Runtime: 0
   Moo: 0
+  Path::Class::File: 0
   Path::ScanINC: 0.002
-  Path::Tiny: 0
   Sub::Quote: 0
   perl: 5.006
   strict: 0
@@ -92,8 +92,8 @@ x_BuiltWith:
     Module::Runtime: 0.013
     Moo: 1.003001
     Path::Class: 0.32
+    Path::Class::File: 0.32
     Path::ScanINC: 0.010
-    Path::Tiny: 0.044
     Pod::Coverage::TrustPod: 0.100003
     Sub::Quote: 1.003001
     Test::CPAN::Changes: 0.25

@@ -87,8 +87,8 @@ has path => (
 );
 
 sub _build_path {
-	require Path::Tiny;
-	return Path::Tiny::path( $_[0]->_find_module_optimistic )->absolute;
+	require Path::Class::File;
+	return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
 }
 
 
