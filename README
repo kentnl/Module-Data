@@ -60,9 +60,9 @@ METHODS
             my $md = Module::Data->new( 'Foo' );
             my $path = $md->path;
 
-    $path is computed optimisitically. If the "package" is listed as being
+    $path is computed optimistically. If the "package" is listed as being
     "loaded", then it asks %INC for where it was found, otherwise, the path
-    is resolved by simulating "perl"'s path lookup in @INC via
+    is resolved by simulating "perl"'s path look up in @INC via
     "Path::ScanINC".
 
   root
@@ -86,7 +86,7 @@ METHODS
     is merely shorthand for $package->VERSION;
 
     However, if if the module is not loaded into memory, all efforts to
-    extract the value without loading the code permenantly are performed.
+    extract the value without loading the code permanently are performed.
 
     Here, this means we compute the path to the file manually ( see "path" )
     and parse the file with "Module::Metadata" to statically extract
