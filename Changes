@@ -1,6 +1,11 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [00 BugFix]
+ - Prevent test failure with new Path::ScanINC
+
+ [Documentation]
+ - Add README.mkdn
 
 0.006 2012-04-13T04:02:46Z
  [Tests]
