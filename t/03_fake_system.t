@@ -19,8 +19,8 @@ require Whitelist;
 
 my $wl = Whitelist->new();
 $wl->whitelist(qw( Module::Data Test::More Data::Dumper warnings ));
-$wl->whitelist(qw( Module::Runtime overload Path::Class::File ));
-$wl->whitelist(qw( Path::ScanINC Path::Tiny Scalar::Util File::Spec Cwd ));
+$wl->whitelist(qw( Module::Runtime overload Path::Tiny ));
+$wl->whitelist(qw( Path::ScanINC Scalar::Util ));
 $wl->whitelist(qw( Module::Metadata strict version ));
 $wl->noload_whitelist(qw( Test::A Test::B Test::C Test::D ));
 $wl->noload_whitelist(qw( TB2::History TB2::StackBuilder Carp TB2::Mouse ));

@@ -18,7 +18,7 @@ is(
   'Creating a new object for Test::Fatal introspection works'
 );
 
-is( $md->root->file( 'Test', 'Fatal.pm' )->absolute->stringify, $md->path->absolute->stringify, "root contains package" );
+is( $md->root->child( 'Test', 'Fatal.pm' )->absolute->stringify, $md->path->absolute->stringify, "root contains package" );
 
 is(
   exception {
