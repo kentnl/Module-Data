@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+
+0.010 2013-11-21T12:25:03Z
  [00 Minor]
  - Internals reimplemented in Path::Tiny
  - Trial release to give end users a bit of warning, because Path::Class
