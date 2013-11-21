@@ -6,7 +6,7 @@ BEGIN {
   $Module::Data::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Module::Data::VERSION = '0.007';
+  $Module::Data::VERSION = '0.010'; # TRIAL
 }
 
 # ABSTRACT: Introspect context information about modules in @INC
@@ -85,8 +85,8 @@ has path => (
 );
 
 sub _build_path {
-  require Path::Class::File;
-  return Path::Class::File->new( $_[0]->_find_module_optimistic )->absolute;
+  require Path::Tiny;
+  return Path::Tiny::path( $_[0]->_find_module_optimistic )->absolute;
 }
 
 
@@ -108,7 +108,7 @@ sub _build_root {
       $path = $path->parent;
       next;
     }
-    if ( $path->file( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
+    if ( $path->child( $_[0]->_notional_name )->absolute eq $_[0]->path->absolute ) {
       return $path->absolute;
     }
     $path = $path->parent;
@@ -162,7 +162,7 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.007
+version 0.010
 
 =head1 SYNOPSIS
 
@@ -221,7 +221,7 @@ Returns the L</package> name itself for convenience so you can do
 
 =head2 path
 
-A Path::Class::File with the absolute path to the found module.
+A Path::Tiny object with the absolute path to the found module.
 
 	my $md = Module::Data->new( 'Foo' );
 	my $path = $md->path;

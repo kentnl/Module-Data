@@ -7,7 +7,6 @@ build_requires:
   Data::Dump: 0
   FindBin: 0
   Module::Build: 0.4202
-  Path::Class: 0
   Test::Fatal: 0
   Test::More: 1.001002
 configure_requires:
@@ -22,13 +21,13 @@ name: Module-Data
 provides:
   Module::Data:
     file: lib/Module/Data.pm
-    version: 0.007
+    version: 0.010
 requires:
   Module::Metadata: 0
   Module::Runtime: 0
   Moo: 0
-  Path::Class::File: 0
   Path::ScanINC: 0.002
+  Path::Tiny: 0
   Sub::Quote: 0
   perl: 5.006
   strict: 0
@@ -37,7 +36,7 @@ resources:
   bugtracker: https://github.com/kentfredric/Module-Data/issues
   homepage: https://github.com/kentfredric/Module-Data
   repository: https://github.com/kentfredric/Module-Data.git
-version: 0.007
+version: 0.010
 x_BuiltWith:
   modules:
     Carp: 1.32
@@ -91,9 +90,8 @@ x_BuiltWith:
     Module::Metadata: 1.000019
     Module::Runtime: 0.013
     Moo: 1.003001
-    Path::Class: 0.32
-    Path::Class::File: 0.32
-    Path::ScanINC: 0.010
+    Path::ScanINC: 0.011
+    Path::Tiny: 0.044
     Pod::Coverage::TrustPod: 0.100003
     Sub::Quote: 1.003001
     Test::CPAN::Changes: 0.25
@@ -492,6 +490,6 @@ x_Dist_Zilla:
   zilla:
     class: Dist::Zilla::Dist::Builder
     config:
-      is_trial: 0
+      is_trial: 1
     version: 5.006
 x_authority: cpan:KENTNL

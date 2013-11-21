@@ -17,7 +17,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Module-Data",
-  "dist_version" => "0.007",
+  "dist_version" => "0.010",
   "license" => "perl",
   "module_name" => "Module::Data",
   "recommends" => {},
@@ -26,8 +26,8 @@ my %module_build_args = (
     "Module::Metadata" => 0,
     "Module::Runtime" => 0,
     "Moo" => 0,
-    "Path::Class::File" => 0,
     "Path::ScanINC" => "0.002",
+    "Path::Tiny" => 0,
     "Sub::Quote" => 0,
     "perl" => "5.006",
     "strict" => 0,
@@ -38,7 +38,6 @@ my %module_build_args = (
     "Carp" => 0,
     "Data::Dump" => 0,
     "FindBin" => 0,
-    "Path::Class" => 0,
     "Test::Fatal" => 0,
     "Test::More" => "1.001002"
   }
@@ -50,7 +49,6 @@ my %fallback_build_requires = (
   "Data::Dump" => 0,
   "FindBin" => 0,
   "Module::Build" => "0.4202",
-  "Path::Class" => 0,
   "Test::Fatal" => 0,
   "Test::More" => "1.001002"
 );

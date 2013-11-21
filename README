@@ -2,7 +2,7 @@ NAME
     Module::Data - Introspect context information about modules in @INC
 
 VERSION
-    version 0.007
+    version 0.010
 
 SYNOPSIS
             use Module::Data;
@@ -55,7 +55,7 @@ METHODS
       $mod->require->new( %args );
 
   path
-    A Path::Class::File with the absolute path to the found module.
+    A Path::Tiny object with the absolute path to the found module.
 
             my $md = Module::Data->new( 'Foo' );
             my $path = $md->path;
