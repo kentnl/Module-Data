@@ -90,7 +90,7 @@ x_BuiltWith:
     Module::Metadata: 1.000019
     Module::Runtime: 0.013
     Moo: 1.003001
-    Path::ScanINC: 0.010
+    Path::ScanINC: 0.011
     Path::Tiny: 0.044
     Pod::Coverage::TrustPod: 0.100003
     Sub::Quote: 1.003001

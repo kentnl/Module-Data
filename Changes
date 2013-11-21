@@ -1,6 +1,6 @@
 Release history for Module-Data
 
-0.010 2013-11-20T13:28:18Z
+0.010 2013-11-21T12:24:34Z
  [00 Minor]
  - Internals reimplemented in Path::Tiny
  - Trial release to give end users a bit of warning, because Path::Class
