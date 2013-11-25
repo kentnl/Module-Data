@@ -21,12 +21,12 @@ name: Module-Data
 provides:
   Module::Data:
     file: lib/Module/Data.pm
-    version: 0.010
+    version: 0.011
 requires:
   Module::Metadata: 0
   Module::Runtime: 0
   Moo: 0
-  Path::ScanINC: 0.002
+  Path::ScanINC: 0.011
   Path::Tiny: 0
   Sub::Quote: 0
   perl: 5.006
@@ -36,31 +36,31 @@ resources:
   bugtracker: https://github.com/kentfredric/Module-Data/issues
   homepage: https://github.com/kentfredric/Module-Data
   repository: https://github.com/kentfredric/Module-Data.git
-version: 0.010
+version: 0.011
 x_BuiltWith:
   modules:
     Carp: 1.32
     Data::Dump: 1.22
-    Dist::Zilla::Plugin::Author::KENTNL::MinimumPerl: 2.002001
+    Dist::Zilla::Plugin::Author::KENTNL::MinimumPerl: 2.004001
     Dist::Zilla::Plugin::Authority: 1.006
     Dist::Zilla::Plugin::AutoPrereqs: 5.006
     Dist::Zilla::Plugin::CheckExtraTests: 0.016
     Dist::Zilla::Plugin::ConfirmRelease: 5.006
     Dist::Zilla::Plugin::EOLTests: 0.02
-    Dist::Zilla::Plugin::Git::Check: 2.017
-    Dist::Zilla::Plugin::Git::Commit: 2.017
-    Dist::Zilla::Plugin::Git::CommitBuild: 2.017
-    Dist::Zilla::Plugin::Git::GatherDir: 2.017
-    Dist::Zilla::Plugin::Git::NextVersion: 2.017
-    Dist::Zilla::Plugin::Git::Tag: 2.017
+    Dist::Zilla::Plugin::Git::Check: 2.019
+    Dist::Zilla::Plugin::Git::Commit: 2.019
+    Dist::Zilla::Plugin::Git::CommitBuild: 2.019
+    Dist::Zilla::Plugin::Git::GatherDir: 2.019
+    Dist::Zilla::Plugin::Git::NextVersion: 2.019
+    Dist::Zilla::Plugin::Git::Tag: 2.019
     Dist::Zilla::Plugin::GithubMeta: 0.42
     Dist::Zilla::Plugin::License: 5.006
     Dist::Zilla::Plugin::Manifest: 5.006
     Dist::Zilla::Plugin::ManifestSkip: 5.006
     Dist::Zilla::Plugin::MetaConfig: 5.006
-    Dist::Zilla::Plugin::MetaData::BuiltWith: 0.04000000
+    Dist::Zilla::Plugin::MetaData::BuiltWith: 0.04000001
     Dist::Zilla::Plugin::MetaJSON: 5.006
-    Dist::Zilla::Plugin::MetaProvides::Package: 1.15000000
+    Dist::Zilla::Plugin::MetaProvides::Package: 1.15000001
     Dist::Zilla::Plugin::MetaTests: 5.006
     Dist::Zilla::Plugin::MetaYAML: 5.006
     Dist::Zilla::Plugin::ModuleBuild: 5.006
@@ -70,7 +70,7 @@ x_BuiltWith:
     Dist::Zilla::Plugin::PodSyntaxTests: 5.006
     Dist::Zilla::Plugin::PodWeaver: 4.002
     Dist::Zilla::Plugin::Prereqs: 5.006
-    Dist::Zilla::Plugin::Prereqs::MatchInstalled: 0.1.4
+    Dist::Zilla::Plugin::Prereqs::MatchInstalled: 0.1.5
     Dist::Zilla::Plugin::PruneCruft: 5.006
     Dist::Zilla::Plugin::ReadmeAnyFromPod: 0.133060
     Dist::Zilla::Plugin::ReadmeFromPod: 0.21
@@ -83,7 +83,7 @@ x_BuiltWith:
     Dist::Zilla::Plugin::TestRelease: 5.006
     Dist::Zilla::Plugin::Twitter: 0.023
     Dist::Zilla::Plugin::UploadToCPAN: 5.006
-    Dist::Zilla::PluginBundle::Author::KENTNL: 2.002001
+    Dist::Zilla::PluginBundle::Author::KENTNL: 2.004001
     Dist::Zilla::PluginBundle::Author::KENTNL::Lite: 1.7.2
     FindBin: 1.51
     Module::Build: 0.4202
@@ -91,10 +91,10 @@ x_BuiltWith:
     Module::Runtime: 0.013
     Moo: 1.003001
     Path::ScanINC: 0.011
-    Path::Tiny: 0.044
+    Path::Tiny: 0.046
     Pod::Coverage::TrustPod: 0.100003
     Sub::Quote: 1.003001
-    Test::CPAN::Changes: 0.25
+    Test::CPAN::Changes: 0.26
     Test::CPAN::Meta: 0.23
     Test::Fatal: 0.013
     Test::Kwalitee: 1.17
@@ -124,7 +124,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::NextVersion
       name: '@Author::KENTNL/Git::NextVersion'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::MetaConfig
       name: '@Author::KENTNL/MetaConfig'
@@ -146,7 +146,7 @@ x_Dist_Zilla:
           inherit_version: 1
           meta_noindex: 1
       name: '@Author::KENTNL/MetaProvides::Package'
-      version: 1.15000000
+      version: 1.15000001
     -
       class: Dist::Zilla::Plugin::MetaData::BuiltWith
       config:
@@ -163,11 +163,11 @@ x_Dist_Zilla:
               - '-i'
             uname_call: uname
       name: '@Author::KENTNL/MetaData::BuiltWith'
-      version: 0.04000000
+      version: 0.04000001
     -
       class: Dist::Zilla::Plugin::Git::GatherDir
       name: '@Author::KENTNL/Git::GatherDir'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::License
       name: '@Author::KENTNL/License'
@@ -350,7 +350,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Author::KENTNL::MinimumPerl
       name: '@Author::KENTNL/Author::KENTNL::MinimumPerl'
-      version: 2.002001
+      version: 2.004001
     -
       class: Dist::Zilla::Plugin::Authority
       name: '@Author::KENTNL/Authority'
@@ -386,23 +386,23 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::Check
       name: '@Author::KENTNL/Git::Check'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Author::KENTNL/Git::Tag/tag_master'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::Git::Commit
       name: '@Author::KENTNL/Git::Commit'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::Git::CommitBuild
       name: '@Author::KENTNL/Git::CommitBuild'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Author::KENTNL/Git::Tag/tag_release'
-      version: 2.017
+      version: 2.019
     -
       class: Dist::Zilla::Plugin::UploadToCPAN
       name: '@Author::KENTNL/UploadToCPAN'
@@ -446,7 +446,7 @@ x_Dist_Zilla:
             - Test::More
             - Dist::Zilla::PluginBundle::Author::KENTNL
       name: '@Author::KENTNL/Prereqs::MatchInstalled'
-      version: 0.1.4
+      version: 0.1.5
     -
       class: Dist::Zilla::Plugin::Prereqs
       config:

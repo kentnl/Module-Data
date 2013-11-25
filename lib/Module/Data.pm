@@ -6,7 +6,7 @@ BEGIN {
   $Module::Data::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Module::Data::VERSION = '0.010'; # TRIAL
+  $Module::Data::VERSION = '0.011'; # TRIAL
 }
 
 # ABSTRACT: Introspect context information about modules in @INC
@@ -65,6 +65,7 @@ sub _find_module_perl {
 sub _find_module_emulate {
   my ($self) = @_;
   require Path::ScanINC;
+  Path::ScanINC->VERSION('0.011');
   return Path::ScanINC->new()->first_file( $self->_notional_name );
 }
 
@@ -162,7 +163,7 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 SYNOPSIS
 
