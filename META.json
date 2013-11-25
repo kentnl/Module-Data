@@ -110,7 +110,7 @@
          "version" : "0.012"
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/kentfredric/Module-Data/issues"
@@ -681,7 +681,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : "0"
+            "is_trial" : "1"
          },
          "version" : "5.006"
       }
