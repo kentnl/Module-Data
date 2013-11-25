@@ -150,8 +150,11 @@ has path => (
 );
 
 sub _build_path {
+  my ( $self, ) = @_;
+  my $value = $self->_find_module_optimistic;
+  return if not defined $value;
   require Path::Tiny;
-  return Path::Tiny::path( $_[0]->_find_module_optimistic )->absolute;
+  return Path::Tiny::path( $value )->absolute;
 }
 
 =method root

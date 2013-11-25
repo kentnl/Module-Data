@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Bugfix]
+ - Don't try to construct a path if underlying mechanisms returned no path.
 
 0.011 2013-11-25T02:13:53Z
  [Dependencies::Noteworthy]
