@@ -6,7 +6,7 @@ BEGIN {
   $Module::Data::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Module::Data::VERSION = '0.011';
+  $Module::Data::VERSION = '0.011'; # TRIAL
 }
 
 # ABSTRACT: Introspect context information about modules in @INC
