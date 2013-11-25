@@ -107,10 +107,10 @@
    "provides" : {
       "Module::Data" : {
          "file" : "lib/Module/Data.pm",
-         "version" : "0.012"
+         "version" : "0.013"
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/kentfredric/Module-Data/issues"
@@ -122,7 +122,7 @@
          "web" : "https://github.com/kentfredric/Module-Data"
       }
    },
-   "version" : "0.012",
+   "version" : "0.013",
    "x_BuiltWith" : {
       "modules" : {
          "Carp" : "1.32",
@@ -158,7 +158,7 @@
          "Dist::Zilla::Plugin::Prereqs" : "5.006",
          "Dist::Zilla::Plugin::Prereqs::MatchInstalled" : "0.1.5",
          "Dist::Zilla::Plugin::PruneCruft" : "5.006",
-         "Dist::Zilla::Plugin::ReadmeAnyFromPod" : "0.133060",
+         "Dist::Zilla::Plugin::ReadmeAnyFromPod" : "0.133290",
          "Dist::Zilla::Plugin::ReadmeFromPod" : "0.21",
          "Dist::Zilla::Plugin::ReportVersions::Tiny" : "1.10",
          "Dist::Zilla::Plugin::Test::CPAN::Changes" : "0.008",
@@ -525,7 +525,7 @@
          {
             "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
             "name" : "@Author::KENTNL/ReadmeAnyFromPod",
-            "version" : "0.133060"
+            "version" : "0.133290"
          },
          {
             "class" : "Dist::Zilla::Plugin::Test::CPAN::Changes",
@@ -681,7 +681,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : "1"
+            "is_trial" : "0"
          },
          "version" : "5.006"
       }

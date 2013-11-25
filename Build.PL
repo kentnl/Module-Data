@@ -17,7 +17,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Module-Data",
-  "dist_version" => "0.012",
+  "dist_version" => "0.013",
   "license" => "perl",
   "module_name" => "Module::Data",
   "recommends" => {},
