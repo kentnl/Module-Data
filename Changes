@@ -1,6 +1,13 @@
 Release history for Module-Data
 
 {{$NEXT}}
+ [Dependencies::Noteworthy]
+ - Require newer Path::ScanINC
+
+ [Dependencies::Stats]
+ - Dependencies changed, see Changes.deps{,.all,.dev} for details
+ - develop: ↑1
+ - runtime: ↑1
 
 0.010 2013-11-21T12:25:03Z
  [00 Minor]
