@@ -21,7 +21,7 @@ name: Module-Data
 provides:
   Module::Data:
     file: lib/Module/Data.pm
-    version: 0.011
+    version: 0.012
 requires:
   Module::Metadata: 0
   Module::Runtime: 0
@@ -36,7 +36,7 @@ resources:
   bugtracker: https://github.com/kentfredric/Module-Data/issues
   homepage: https://github.com/kentfredric/Module-Data
   repository: https://github.com/kentfredric/Module-Data.git
-version: 0.011
+version: 0.012
 x_BuiltWith:
   modules:
     Carp: 1.32
@@ -105,12 +105,12 @@ x_BuiltWith:
     version: 0.9904
     warnings: 1.20
   perl:
-    original: v5.19.5
+    original: v5.19.6
     qv: 1
     version:
       - 5
       - 19
-      - 5
+      - 6
   perl-config:
     gccversion: 4.7.3
     myarchname: x86_64-linux
@@ -119,7 +119,7 @@ x_BuiltWith:
   uname: 'Linux 3.12.0-gentoo x86_64 GenuineIntel GNU/Linux'
 x_Dist_Zilla:
   perl:
-    version: 5.019005
+    version: 5.019006
   plugins:
     -
       class: Dist::Zilla::Plugin::Git::NextVersion
@@ -490,6 +490,6 @@ x_Dist_Zilla:
   zilla:
     class: Dist::Zilla::Dist::Builder
     config:
-      is_trial: 1
+      is_trial: 0
     version: 5.006
 x_authority: cpan:KENTNL
