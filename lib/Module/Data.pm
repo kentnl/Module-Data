@@ -65,7 +65,7 @@ sub _find_module_perl {
 sub _find_module_emulate {
   my ($self) = @_;
   require Path::ScanINC;
-  Path::ScanINC->VERSION("0.011");
+  Path::ScanINC->VERSION('0.011');
   return Path::ScanINC->new()->first_file( $self->_notional_name );
 }
 
