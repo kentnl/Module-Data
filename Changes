@@ -1,6 +1,6 @@
 Release history for Module-Data
 
-0.012 2013-11-25T08:26:05Z
+0.012 2013-11-25T08:27:23Z
  [Bugfix]
  - Don't try to construct a path if underlying mechanisms returned no path.
 

@@ -1,4 +1,6 @@
-0.011
+0.012
+
+0.011 2013-11-25T02:13:53Z
  [Changed / develop requires]
  - Dist::Zilla::PluginBundle::Author::KENTNL 2.002001 → 2.004001
 
