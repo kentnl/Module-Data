@@ -1,6 +1,8 @@
 Release history for Module-Data
 
 {{$NEXT}}
+
+0.011 2013-11-25T02:13:53Z
  [Dependencies::Noteworthy]
  - Require newer Path::ScanINC
 
