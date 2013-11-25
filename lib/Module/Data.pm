@@ -6,7 +6,7 @@ BEGIN {
   $Module::Data::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $Module::Data::VERSION = '0.011'; # TRIAL
+  $Module::Data::VERSION = '0.012'; # TRIAL
 }
 
 # ABSTRACT: Introspect context information about modules in @INC
@@ -86,8 +86,11 @@ has path => (
 );
 
 sub _build_path {
+  my ( $self, ) = @_;
+  my $value = $self->_find_module_optimistic;
+  return if not defined $value;
   require Path::Tiny;
-  return Path::Tiny::path( $_[0]->_find_module_optimistic )->absolute;
+  return Path::Tiny::path( $value )->absolute;
 }
 
 
@@ -163,7 +166,7 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 SYNOPSIS
 
