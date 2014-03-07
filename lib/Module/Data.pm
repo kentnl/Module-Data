@@ -208,7 +208,7 @@ If the module appears to be already loaded in memory:
 
 is merely shorthand for $package->VERSION;
 
-However, if if the module is not loaded into memory, all efforts to extract the
+However, if the module is not loaded into memory, all efforts to extract the
 value without loading the code permanently are performed.
 
 Here, this means we compute the path to the file manually ( see L</path> ) and
