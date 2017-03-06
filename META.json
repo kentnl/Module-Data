@@ -933,6 +933,9 @@
       }
    },
    "x_authority" : "cpan:KENTNL",
+   "x_contributors" : [
+      "David Steinbrunner <dsteinbrunner@pobox.com>"
+   ],
    "x_serialization_backend" : "Cpanel::JSON::XS version 3.0227"
 }
 
