@@ -310,7 +310,7 @@ version 0.013
 
 =head2 package
 
-Returns the package the C<Module::Data> instance was created for. ( In essence,
+Returns the package the C<Module::Data> instance was created for. In essence,
 this will just return the value you passed during C<new>, nothing more, nothing
 less.
 
