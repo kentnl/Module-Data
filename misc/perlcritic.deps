@@ -1,4 +1,5 @@
 Perl::Critic::Policy::Lax::RequireExplicitPackage::ExceptForPragmata~0
+Perl::Critic::Policy::Variables::ProhibitUnusedVarsStricter~0
 Perl::Critic::ProfileCompiler::Bundle::Bangs~0
 Perl::Critic::ProfileCompiler::Bundle::Compatibility~0
 Perl::Critic::ProfileCompiler::Bundle::Core~0

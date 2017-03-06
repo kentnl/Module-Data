@@ -448,7 +448,7 @@ base_max = 130
 
 [Variables::ProhibitUnusedVariables]
 
-[-Variables::ProhibitUnusedVarsStricter]
+[Variables::ProhibitUnusedVarsStricter]
 
 [Variables::ProtectPrivateVars]
 
