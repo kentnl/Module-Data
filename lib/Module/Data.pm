@@ -61,7 +61,7 @@ less.
 has package => (
   required => 1,
   is       => 'ro',
-  ## no critic (ValuesAndExpressions::RequireInterpolationOfMetachars)
+  ## no critic (ValuesAndExpressions::RequireInterpolationOfMetachars, ValuesAndExpressions::RestrictLongStrings)
   isa => quote_sub q{}
     . q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
     . q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
