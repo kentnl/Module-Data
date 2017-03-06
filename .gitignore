@@ -1,2 +1,3 @@
-.build
-Module-Data-*
+/.build
+/Module-Data-*
+/tmp/
