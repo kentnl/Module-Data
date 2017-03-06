@@ -1,5 +1,7 @@
 Release history for Module-Data
 
+0.014 2017-03-06T11:55:33Z 95f66c8
+
 0.013 2017-03-06T11:43:10Z 095bcf3
  [Bugfix]
  - Avoid test failures with -Ddefault_inc_excludes_dot

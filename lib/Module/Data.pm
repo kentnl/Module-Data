@@ -4,7 +4,7 @@ use warnings;
 
 package Module::Data;
 
-our $VERSION = '0.013';
+our $VERSION = '0.014';
 
 # ABSTRACT: Introspect context information about modules in @INC
 
@@ -279,7 +279,7 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.013
+version 0.014
 
 =head1 SYNOPSIS
 
