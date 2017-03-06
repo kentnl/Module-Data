@@ -1,8 +1,15 @@
 This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL dependencies for all phases (configure/build/runtime/test/develop)
 
 0.013
+ [Added / configure recommends]
+ - ExtUtils::MakeMaker 7.00
+
  [Added / configure requires]
+ - ExtUtils::MakeMaker
  - perl 5.006
+
+ [Added / develop recommends]
+ - Test::More 0.99
 
  [Added / develop requires]
  - Dist::Zilla 5
@@ -12,6 +19,7 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - Dist::Zilla::Plugin::CopyFilesFromBuild
  - Dist::Zilla::Plugin::Git::Contributors 0.006
  - Dist::Zilla::Plugin::Git::NextRelease 0.004000
+ - Dist::Zilla::Plugin::MakeMaker
  - Dist::Zilla::Plugin::MetaYAML::Minimal
  - Dist::Zilla::Plugin::MinimumPerl
  - Dist::Zilla::Plugin::Prereqs::AuthorDeps
@@ -27,7 +35,7 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - Software::License::Perl_5
  - Test::EOL
  - Test::MinimumVersion
- - Test::More 1.302073
+ - Test::More 0.96
 
  [Added / develop suggests]
  - Dist::Zilla::App::Command::bakeini 0.002006
@@ -39,17 +47,13 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
 
  [Added / test recommends]
  - CPAN::Meta 2.120900
+ - ExtUtils::MakeMaker 7.00
+ - Test::More 0.99
 
  [Added / test requires]
  - ExtUtils::MakeMaker
  - File::Spec
  - perl 5.006
-
- [Changed / build requires]
- - Module::Build 0.4202 → 0.4220
-
- [Changed / configure requires]
- - Module::Build 0.4202 → 0.4220
 
  [Changed / develop requires]
  - Dist::Zilla::Plugin::MetaData::BuiltWith 0 → 1.004000
@@ -57,7 +61,13 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - Test::Kwalitee 1.12 → 1.21
 
  [Changed / test requires]
- - Test::More 1.001002 → 1.302073
+ - Test::More 1.001002 → 0.96
+
+ [Removed / build requires]
+ - Module::Build 0.4202
+
+ [Removed / configure requires]
+ - Module::Build 0.4202
 
  [Removed / develop requires]
  - Dist::Zilla::Plugin::Author::KENTNL::MinimumPerl
@@ -65,8 +75,10 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - Dist::Zilla::Plugin::EOLTests
  - Dist::Zilla::Plugin::Git::NextVersion
  - Dist::Zilla::Plugin::MetaYAML
+ - Dist::Zilla::Plugin::ModuleBuild
  - Dist::Zilla::Plugin::NextRelease
  - Dist::Zilla::Plugin::PkgVersion
+ - Dist::Zilla::Plugin::Prereqs::MatchInstalled
  - Dist::Zilla::Plugin::PruneCruft
  - Dist::Zilla::Plugin::ReadmeFromPod
  - Dist::Zilla::Plugin::ReportVersions::Tiny

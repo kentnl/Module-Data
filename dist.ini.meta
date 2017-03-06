@@ -24,6 +24,8 @@ auto_prereqs_skip = Whitelist
 normal_form = numify
 mantissa = 3
 copy_files = LICENSE
+toolkit          = eumm
+toolkit_hardness = soft
 
 [Prereqs]
 Path::ScanINC = 0.002 ; Win32 Quirks in @INC + &sub callbacks.
