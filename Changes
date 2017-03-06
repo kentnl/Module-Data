@@ -1,6 +1,6 @@
 Release history for Module-Data
 
-0.013 2017-03-06T11:42:26Z 7decee5
+0.013 2017-03-06T11:42:51Z 004837f
  [Bugfix]
  - Avoid test failures with -Ddefault_inc_excludes_dot
  - Closes https://github.com/kentnl/Module-Data/issues/2

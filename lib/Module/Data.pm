@@ -251,7 +251,7 @@ sub _version_optimistic {
 }
 
 sub version {
-  my ( $self, @junk ) = @_;
+  my ( $self, ) = @_;
   return $self->_version_optimistic;
 }
 
