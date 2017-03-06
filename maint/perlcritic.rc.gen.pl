@@ -27,7 +27,6 @@ for my $var (@stopwords) {
 #  'Subroutines::ProhibitCallsToUndeclaredSubs' => ( 'exempt_subs' => 'String::Formatter::str_rf' ), );
 
 $bundle->remove_policy('Subroutines::ProhibitCallsToUndeclaredSubs');
-$bundle->remove_policy('ValuesAndExpressions::RequireInterpolationOfMetachars');
 $bundle->remove_policy('ValuesAndExpressions::RestrictLongStrings');
 $bundle->remove_policy('Documentation::ProhibitUnbalancedParens');
 $bundle->remove_policy('Variables::ProhibitUnusedVarsStricter');
