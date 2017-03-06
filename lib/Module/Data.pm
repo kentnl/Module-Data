@@ -2,7 +2,9 @@ use strict;
 use warnings;
 
 package Module::Data;
-$Module::Data::VERSION = '0.013';
+
+our $VERSION = '0.013';
+
 # ABSTRACT: Introspect context information about modules in @INC
 use Moo;
 use Sub::Quote;

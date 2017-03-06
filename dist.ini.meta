@@ -10,7 +10,7 @@ copyright_holder = Kent Fredric <kentnl@cpan.org>
 
 [@Author::KENTNL]
 :version          = 2.025020
-git_versions      = 1
+bump_versions     = 1
 ; version_major     = 0
 ; version_minor     = 1
 ; the following data denotes when this minor was minted
