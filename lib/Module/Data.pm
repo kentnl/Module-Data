@@ -61,7 +61,8 @@ around BUILDARGS => sub {
 has package => (
   required => 1,
   is       => 'ro',
-  isa      => quote_sub q{}
+  ## no critic (ValuesAndExpressions::RequireInterpolationOfMetachars)
+  isa => quote_sub q{}
     . q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
     . q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
     . q{require Module::Runtime;}
@@ -69,8 +70,9 @@ has package => (
 );
 
 has _notional_name => (
-  is      => 'ro',
-  lazy    => 1,
+  is   => 'ro',
+  lazy => 1,
+  ## no critic (ValuesAndExpressions::RequireInterpolationOfMetachars)
   default => quote_sub q{} . q{require Module::Runtime;} . q{return Module::Runtime::module_notional_filename( $_[0]->package );},
 );
 

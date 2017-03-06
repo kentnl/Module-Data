@@ -414,7 +414,7 @@ base_max = 130
 
 [ValuesAndExpressions::RequireConstantVersion]
 
-[-ValuesAndExpressions::RequireInterpolationOfMetachars]
+[ValuesAndExpressions::RequireInterpolationOfMetachars]
 
 [ValuesAndExpressions::RequireNumberSeparators]
 
