@@ -9,7 +9,7 @@ Release history for Module-Data
  - Dependencies changed since 0.012, see misc/*.deps* for details
  - build: ↑1
  - configure: +1 ↑1
- - develop: +22 ↑3 -11 (suggests: +2 -1)
+ - develop: +23 ↑3 -12 (suggests: +2 -1)
  - runtime: (recommends: +2)
  - test: +3 ↑1 (recommends: +1)
 
