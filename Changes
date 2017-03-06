@@ -1,17 +1,20 @@
 Release history for Module-Data
 
-0.013 2017-03-06T08:43:46Z 3b0f33e
+0.013 2017-03-06T08:45:58Z b92d47a
  [Bugfix]
  - Avoid test failures with -Ddefault_inc_excludes_dot
  - Closes https://github.com/kentnl/Module-Data/issues/2
 
  [Dependencies::Stats]
  - Dependencies changed since 0.012, see misc/*.deps* for details
- - build: ↑1
- - configure: +1 ↑1
- - develop: +23 ↑3 -12 (suggests: +2 -1)
+ - build: -1
+ - configure: +2 -1 (recommends: +1)
+ - develop: +24 ↑3 -14 (recommends: +1, suggests: +2 -1)
  - runtime: (recommends: +2)
- - test: +3 ↑1 (recommends: +1)
+ - test: +3 ↓1 (recommends: +3)
+
+ [Tooling]
+ - Switched from Module::Build to EUMM. WARNING: This could break some vendors.
 
 0.012 2013-11-25T08:27:23Z
  [Bugfix]
