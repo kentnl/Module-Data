@@ -35,7 +35,7 @@ version 0.013
 
 ## package
 
-Returns the package the `Module::Data` instance was created for. ( In essence,
+Returns the package the `Module::Data` instance was created for. In essence,
 this will just return the value you passed during `new`, nothing more, nothing
 less.
 

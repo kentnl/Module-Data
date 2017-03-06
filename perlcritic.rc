@@ -141,7 +141,7 @@ spell_command = aspell list --lang en_US
 
 [Documentation::ProhibitParagraphTwoDots]
 
-[-Documentation::ProhibitUnbalancedParens]
+[Documentation::ProhibitUnbalancedParens]
 
 [Documentation::ProhibitVerbatimMarkup]
 

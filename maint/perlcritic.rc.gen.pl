@@ -28,7 +28,6 @@ for my $var (@stopwords) {
 
 $bundle->remove_policy('Subroutines::ProhibitCallsToUndeclaredSubs');
 $bundle->remove_policy('ValuesAndExpressions::RestrictLongStrings');
-$bundle->remove_policy('Documentation::ProhibitUnbalancedParens');
 $bundle->remove_policy('Variables::ProhibitUnusedVarsStricter');
 #$bundle->remove_policy('ErrorHandling::RequireCarping');
 #$bundle->remove_policy('NamingConventions::Capitalization');
