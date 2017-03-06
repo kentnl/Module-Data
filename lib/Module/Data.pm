@@ -1,17 +1,17 @@
+use 5.006;    # our
 use strict;
 use warnings;
 
 package Module::Data;
-BEGIN {
-  $Module::Data::AUTHORITY = 'cpan:KENTNL';
-}
-{
-  $Module::Data::VERSION = '0.012'; # TRIAL
-}
+
+our $VERSION = '0.013';
 
 # ABSTRACT: Introspect context information about modules in @INC
-use Moo;
-use Sub::Quote;
+
+our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
+
+use Moo qw( around has );
+use Sub::Quote qw( quote_sub );
 
 around BUILDARGS => sub {
   my ( $orig, $class, @args ) = @_;
@@ -23,10 +23,46 @@ around BUILDARGS => sub {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 has package => (
   required => 1,
   is       => 'ro',
-  isa      => quote_sub q{}
+  ## no critic (ValuesAndExpressions::RequireInterpolationOfMetachars, ValuesAndExpressions::RestrictLongStrings)
+  isa => quote_sub q{}
     . q{die "given undef for 'package' , expects a Str/module name" if not defined $_[0];}
     . q{die " ( 'package' => $_[0] ) is not a Str/module name, got a ref : " . ref $_[0] if ref $_[0];}
     . q{require Module::Runtime;}
@@ -34,16 +70,39 @@ has package => (
 );
 
 has _notional_name => (
-  is      => 'ro',
-  lazy    => 1,
+  is   => 'ro',
+  lazy => 1,
+  ## no critic (ValuesAndExpressions::RequireInterpolationOfMetachars)
   default => quote_sub q{} . q{require Module::Runtime;} . q{return Module::Runtime::module_notional_filename( $_[0]->package );},
 );
+
+
+
+
+
+
+
+
+
 
 
 sub loaded {
   my ($self) = @_;
   return exists $INC{ $self->_notional_name };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## no critic ( ProhibitBuiltinHomonyms )
@@ -78,6 +137,19 @@ sub _find_module_optimistic {
 ## use critic
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 has path => (
   is       => 'ro',
   lazy     => 1,
@@ -90,8 +162,23 @@ sub _build_path {
   my $value = $self->_find_module_optimistic;
   return if not defined $value;
   require Path::Tiny;
-  return Path::Tiny::path( $value )->absolute;
+  return Path::Tiny::path($value)->absolute;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 has root => (
@@ -122,6 +209,25 @@ sub _build_root {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 sub _version_perl {
   my ($self) = @_;
   $self->require;
@@ -145,9 +251,16 @@ sub _version_optimistic {
 }
 
 sub version {
-  my ( $self, @junk ) = @_;
+  my ( $self, ) = @_;
   return $self->_version_optimistic;
 }
+
+
+
+
+
+
+
 
 
 no Moo;
@@ -166,7 +279,7 @@ Module::Data - Introspect context information about modules in @INC
 
 =head1 VERSION
 
-version 0.012
+version 0.013
 
 =head1 SYNOPSIS
 
@@ -197,7 +310,7 @@ version 0.012
 
 =head2 package
 
-Returns the package the C<Module::Data> instance was created for. ( In essence,
+Returns the package the C<Module::Data> instance was created for. In essence,
 this will just return the value you passed during C<new>, nothing more, nothing
 less.
 
@@ -257,7 +370,7 @@ If the module appears to be already loaded in memory:
 
 is merely shorthand for $package->VERSION;
 
-However, if if the module is not loaded into memory, all efforts to extract the
+However, if the module is not loaded into memory, all efforts to extract the
 value without loading the code permanently are performed.
 
 Here, this means we compute the path to the file manually ( see L</path> ) and
@@ -275,7 +388,7 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
+This software is copyright (c) 2017 by Kent Fredric <kentnl@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
