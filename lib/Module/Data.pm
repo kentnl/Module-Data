@@ -2,13 +2,7 @@ use strict;
 use warnings;
 
 package Module::Data;
-BEGIN {
-  $Module::Data::AUTHORITY = 'cpan:KENTNL';
-}
-{
-  $Module::Data::VERSION = '0.013';
-}
-
+$Module::Data::VERSION = '0.013';
 # ABSTRACT: Introspect context information about modules in @INC
 use Moo;
 use Sub::Quote;
@@ -20,6 +14,41 @@ around BUILDARGS => sub {
 
   return $class->$orig(@args);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -40,10 +69,32 @@ has _notional_name => (
 );
 
 
+
+
+
+
+
+
+
+
+
 sub loaded {
   my ($self) = @_;
   return exists $INC{ $self->_notional_name };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## no critic ( ProhibitBuiltinHomonyms )
@@ -78,6 +129,19 @@ sub _find_module_optimistic {
 ## use critic
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 has path => (
   is       => 'ro',
   lazy     => 1,
@@ -92,6 +156,21 @@ sub _build_path {
   require Path::Tiny;
   return Path::Tiny::path($value)->absolute;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 has root => (
@@ -122,6 +201,25 @@ sub _build_root {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 sub _version_perl {
   my ($self) = @_;
   $self->require;
@@ -148,6 +246,13 @@ sub version {
   my ( $self, @junk ) = @_;
   return $self->_version_optimistic;
 }
+
+
+
+
+
+
+
 
 
 no Moo;
@@ -275,7 +380,7 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Kent Fredric <kentnl@cpan.org>.
+This software is copyright (c) 2017 by Kent Fredric <kentnl@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
