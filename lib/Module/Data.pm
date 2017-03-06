@@ -10,8 +10,8 @@ our $VERSION = '0.013';
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
-use Moo;
-use Sub::Quote;
+use Moo qw( around has );
+use Sub::Quote qw( quote_sub );
 
 around BUILDARGS => sub {
   my ( $orig, $class, @args ) = @_;
