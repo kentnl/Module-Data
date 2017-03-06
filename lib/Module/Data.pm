@@ -4,7 +4,7 @@ use warnings;
 
 package Module::Data;
 
-our $VERSION = '0.013';
+our $VERSION = '0.014';
 
 # ABSTRACT: Introspect context information about modules in @INC
 
