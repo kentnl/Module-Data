@@ -26,8 +26,6 @@ for my $var (@stopwords) {
 #$bundle->add_or_append_policy_field(
 #  'Subroutines::ProhibitCallsToUndeclaredSubs' => ( 'exempt_subs' => 'String::Formatter::str_rf' ), );
 
-$bundle->remove_policy('Modules::RequirePerlVersion');
-$bundle->remove_policy('Compatibility::PerlMinimumVersionAndWhy');
 $bundle->remove_policy('Subroutines::ProhibitCallsToUndeclaredSubs');
 $bundle->remove_policy('ValuesAndExpressions::RequireInterpolationOfMetachars');
 $bundle->remove_policy('ValuesAndExpressions::RestrictLongStrings');

@@ -96,7 +96,7 @@ allow_includes = 1
 
 [Compatibility::Gtk2Constants]
 
-[-Compatibility::PerlMinimumVersionAndWhy]
+[Compatibility::PerlMinimumVersionAndWhy]
 
 [-Compatibility::PodMinimumVersion]
 
@@ -256,7 +256,7 @@ allowed_pragmata = diagnostics feature perlversion strict warnings utf8
 
 [Modules::RequireNoMatchVarsWithUseEnglish]
 
-[-Modules::RequirePerlVersion]
+[Modules::RequirePerlVersion]
 
 [Modules::RequireVersionVar]
 
